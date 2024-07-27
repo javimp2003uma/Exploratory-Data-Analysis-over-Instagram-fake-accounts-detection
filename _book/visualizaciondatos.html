@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>TAREA PROYECTO - BOOK LCC - 2&nbsp; Visualización de datos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./reglasasociacion.html" rel="next">
+<link href="./analisisexploratorio.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./visualizaciondatos.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Visualización de datos</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">TAREA PROYECTO - BOOK LCC</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analisisexploratorio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Análisis exploratorio de datos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./visualizaciondatos.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Visualización de datos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reglasasociacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Reglas de asociación</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./fca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">FCA</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./regresion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Regresión</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./seriestemporales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Series temporales</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./otrastecnicas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Otras técnicas</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#veamos-qué-es-capaz-de-hacer-ggplot" id="toc-veamos-qué-es-capaz-de-hacer-ggplot" class="nav-link active" data-scroll-target="#veamos-qué-es-capaz-de-hacer-ggplot"><span class="header-section-number">2.1</span> Veamos qué es capaz de hacer ggplot</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Visualización de datos</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>A todos siempre nos ha gustado apreciar todas las “mates” por los ojos, ¿verdad? Y es que ver una gráfica que te muestre de manera clara y concisa como evoluciona cierta variable a lo largo del tiempo, cómo 2 o más variables están correlacionadas cuando no lo parecía o cúales son los máximos que toma una variable a partir de un histograma, es mucho más divertido que ver tablas y tablas llenas de números y atributos. Podemos estar tranquilos porque este apartado del book evitará esto último.</p>
+<p>Y es que la visualización de datos nos permite ir más allá de las simples cifras y estadísticas, brindándonos una forma poderosa de comprender y comunicar patrones, tendencias y relaciones en nuestros datos. Desde gráficos simples hasta visualizaciones interactivas y sofisticadas, las herramientas de visualización nos permiten explorar la información de manera intuitiva y revelar insights que pueden pasar desapercibidos en tablas de datos estáticas.</p>
+<div style="text-align:center;">
+<p><a href="https://es.wikipedia.org/wiki/Visualizaci%C3%B3n_de_datos"> <img src="images/5.jpg" alt="Imagen" width="250"> </a></p>
+</div>
+<p>Al representar nuestros datos de manera visual, podemos identificar patrones complejos, detectar anomalías, y acciones similares. Ya sea que estemos explorando datos para comprender el comportamiento de los usuarios en una plataforma digital, analizando tendencias de ventas en un negocio, investigando patrones climáticos a lo largo del tiempo o, en nuestro caso, viendo cualidades y/o atributos de perfiles fake de Instagram, la visualización de datos nos brinda una ventana clara y concisa hacia el mundo de la información que nos rodea.</p>
+<p>En esta sección del libro, exploraremos diversas técnicas y herramientas de visualización de datos que nos permitirán sacar el máximo provecho de nuestro dataset. Desde gráficos simples hasta visualizaciones interactivas, aprenderemos cómo seleccionar y construir visualizaciones efectivas que nos ayuden a contar historias convincentes y a extraer insights valiosos de nuestros datos. <strong>¡Vamos a ello!</strong></p>
+<section id="veamos-qué-es-capaz-de-hacer-ggplot" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="veamos-qué-es-capaz-de-hacer-ggplot"><span class="header-section-number">2.1</span> Veamos qué es capaz de hacer ggplot</h2>
+<p>Entre las diversas herramientas disponibles para la visualización de datos, una de las más poderosas y versátiles es <a href="https://ggplot2.tidyverse.org/">ggplot2</a>, una librería en R que ofrece una manera elegante y flexible de crear gráficos de alta calidad. Desarrollada por <a href="https://en.wikipedia.org/wiki/Hadley_Wickham">Hadley Wickham</a> (sí, otra vez él), ggplot2 se basa en la filosofía de <a href="https://www.amazon.com/Grammar-Graphics-Statistics-Computing/dp/0387245448/ref=as_li_ss_tl">‘The Grammar of Graphics’</a>, que se centra en descomponer los gráficos en componentes fundamentales para construir visualizaciones de datos de manera intuitiva y estructurada.</p>
+<p>La fortaleza de ggplot2 radica en su enfoque declarativo, donde los usuarios describen qué quieren representar y cómo, en lugar de preocuparse por los detalles técnicos de implementación. Con ggplot2, podemos crear una amplia variedad de gráficos, desde simples diagramas de dispersión hasta complejas visualizaciones de datos multivariados, con un código conciso y legible.</p>
+<p>En este libro, exploraremos los conceptos básicos de ggplot2 y aprenderemos cómo utilizar esta potente herramienta para crear visualizaciones impactantes. Comenzaremos primero por importar las librerías necesarias.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"datasets/train.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 576 Columns: 12
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+dbl (12): profile pic, nums/length username, fullname words, nums/length ful...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"datasets/test.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 120 Columns: 12
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+dbl (12): profile pic, nums/length username, fullname words, nums/length ful...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>all_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(train, test)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Una vez hemos importado <em>“ggplot2”</em>, podemos proceder a hacer uso de las múltiples funcionalidades que nos ofrece. Para tantear el terreno, podemos ver algunas pequeñas cosas que es capaz de hacer.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> all_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">nums/length username</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.1</span>, <span class="at">fill =</span> <span class="st">"skyblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histograma de proporciones de dígitos en los nombres"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Proporción de dígitos por longitud de nombre de usuario"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frecuencia"</span>) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizaciondatos_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Vemos en el anterior gráfico de histogramas un recuento de frecuencia de cuentas para los distintos valores de proporción <em>dígitos-longitud de username</em>. Se puede ver claramente como las cuentas que predominan son aquellas que no presentan ningún dígito en su nombre de usuario.</p>
+<p>Cuando se utiliza la función <a href="https://www.rdocumentation.org/packages/ggplot2/versions/0.9.1/topics/geom_histogram">geom_histogram()</a>, el valor predeterminado para el argumento <em>“stat”</em> es <em>“bin”</em>, lo que significa que ggplot2 calculará automáticamente la frecuencia (o el recuento) de observaciones en cada intervalo de clase y representará estas frecuencias en el eje y del histograma. Continuemos explorando qué más podemos hacer.</p>
+<p>Podemos ver también la distrubicuón de datos en nuestro dataset que presentan cuentas fake y verdaderas:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contar la cantidad de cuentas falsas y no falsas</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>fake_counts <span class="ot">&lt;-</span> <span class="fu">table</span>(all_data<span class="sc">$</span>fake)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de pastel</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">pie</span>(fake_counts, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"No Falsa"</span>, <span class="st">"Falsa"</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"skyblue"</span>, <span class="st">"salmon"</span>),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"Proporción de Cuentas Falsas vs. No Falsas"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizaciondatos_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>¿Qué tal si vemos de manera visual cuantás cuentas de nuestro dataset pertenecen al grupo de privadas y cuántas a públicas? Además le asociaremos mediante <a href="https://ggplot2tor.com/scales/scale_fill_manual">scale_fill_manual</a> distintos colores para cada uno de los grupos…</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagrama de dispersión: Relación entre #followers y #posts</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> all_data, <span class="fu">aes</span>(<span class="at">x =</span> private, <span class="at">fill =</span> <span class="fu">as.factor</span>(private))) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Cuentas Privadas vs Públicas"</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Cuenta privada (0 = No, 1 = Sí)"</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Cantidad"</span>) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"skyblue"</span>, <span class="st">"salmon"</span>), </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">name =</span> <span class="st">"Tipo de Cuenta"</span>,  <span class="co"># Cambiar el texto en la leyenda</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Sí"</span>)) <span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizaciondatos_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>De manera equivalente, existe una función denominada <a href="https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/hist">hist()</a>, que nos podría haber servido para el mismo propósito…</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(all_data<span class="sc">$</span>private)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizaciondatos_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Como vemos, está siendo muy habitual en los gráficos ver el título de los mismo de manera centrada con respecto a la representación. Esto lo logramos con <a href="http://www.sthda.com/english/wiki/ggplot2-title-main-axis-and-legend-titles">plot.title</a>, que se trata de un argumento de <a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a>, una función que te permite personalizar diversos aspectos de la apariencia de tu gráfico, como el color de fondo, los márgenes, las etiquetas de los ejes, la posición del título, entre otros.</p>
+<p>Podemos pasar ahora a ver un poco de puntos, que suele ser lo mas normal. Ya veremos más adelante en la sección de <a href="http://localhost:4683/regresion.html">regresión</a>, que se tratará de un gráfico realmente representativo, e importante para poder modelar rectas o modelos que nos permitan realizar estimaciones en el futuro para nuevos datos entrantes sobre cuentas de Instagram.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(all_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">#followers</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">#posts</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"darkblue"</span>) <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Número de Seguidores"</span>, <span class="at">y =</span> <span class="st">"Número de Publicaciones"</span>) <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Relación entre Seguidores y Publicaciones"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizaciondatos_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>¡Ups, algo ha ido mal! Existen una serie de puntos que están haciendo que ggplot trate de adaptar el gráfico lo mejor posible a todo el dataset, pero como dichos valores de número de seguidores son demasiado altos con respecto al resto, la gráfica resultante es lo que se ve por pantalla, nada claro. Existen varias manera de poder darle solución a esto.</p>
+<p>La primera de ellas podría ser, detectar cuáles son dichos puntos, y cortar de raiz el problema. Eliminarlos del dataset y ver si el nuevo dataset es más apto a ser representado mediante <a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point()</a>. Como vemos en el gráfico inútil, son 6 los puntos que nos están poniendo piedras en el camino.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Como realmente a la hora de representar un dataset mediante un gráfico</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># de puntos no nos importa si está ordenado por algún atributo, no va</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># a influir trabajar en este chunk con un dataset con un orden distintos.</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>datos_ordenados <span class="ot">&lt;-</span> all_data[<span class="fu">order</span>(all_data<span class="sc">$</span><span class="st">`</span><span class="at">#followers</span><span class="st">`</span>, <span class="at">decreasing =</span> <span class="cn">TRUE</span>), ]</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>datosSinLosPrimeros6 <span class="ot">&lt;-</span> datos_ordenados[<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>), ]</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(datosSinLosPrimeros6, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">#followers</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">#posts</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"darkblue"</span>) <span class="sc">+</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Número de Seguidores"</span>, <span class="at">y =</span> <span class="st">"Número de Publicaciones"</span>) <span class="sc">+</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Relación entre Seguidores y Publicaciones"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizaciondatos_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Hemos avanzado algo, pero muy poco siendo objetivos. Seguimos sin ver nada, ya que se aprecia claramente una contundente densidad de puntos en la parte inferior izquierda, problamente por la distribución de los datos con los que estamos trabajando. ¿Qué podemos hacer entonces? No hay por qué alterarnos, todo tiene solución, y más aún en el mundo del análisis de datos. Vamos a optar por cambiar la escala de nuestros datos, para ver si así logramos algo. Concretamente, la escala logarítmica puede ser útil cuando tienes datos con una distribución sesgada o con valores extremadamente grandes que dificultan la visualización de los detalles en la parte inferior de la escala. Por ello usamos <a href="http://www.sthda.com/english/wiki/ggplot2-axis-scales-and-transformations#:~:text=values%20are%20%E2%80%9Clog2%E2%80%9D%2C%20%E2%80%9C-,log10%E2%80%9D%2C,-%E2%80%A6">scale_x(y)_log10</a>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(all_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">#followers</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">#posts</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"darkblue"</span>) <span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Número de Seguidores"</span>, <span class="at">y =</span> <span class="st">"Número de Publicaciones"</span>) <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Relación entre Seguidores y Publicaciones"</span>) <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>(<span class="at">breaks =</span> <span class="dv">2</span><span class="sc">^</span><span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">24</span>, <span class="at">by =</span> <span class="dv">1</span>),<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span> <span class="co"># Escala logarítmica en base 10 para el eje x</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span> <span class="co"># Escala logarítmica en base 10 para el eje y</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust=</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizaciondatos_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>¡Esto ya es otra cosa! Ahora podemos ver mucho mejor las cosas. La aplicación de una escala logarítmica en este gráfico ha permitido una representación más clara y efectiva de los datos, especialmente cuando se trata de valores que abarcan varios órdenes de magnitud. Sin embargo, es importante tener en cuenta que los valores que aparecen en los ejes no son los reales, sino los convertidos mediante la escala logarítmica. Por lo tanto, se debe ejercer cautela al interpretar los valores representados en el gráfico. Es decir, si quisieramos obtener de vuelta dichos valores reales a partir de los visualizados en la gráfica, deberíamos realizar la operación inversa a la escala realizada.</p>
+<p>Podríamos probar también a representar una gráfica donde la inferencia o eje Y correspondiera a la variable que realmente esta modelandose a lo largo de todo el análisis de datos de este dataset, <em>fake</em>. Para ello:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(all_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">#followers</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">fullname words</span><span class="st">`</span>, <span class="at">color =</span> <span class="fu">as.factor</span>(fake))) <span class="sc">+</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Número de Seguidores"</span>, <span class="at">y =</span> <span class="st">"Número de Palabras en el Nombre Completo"</span>, <span class="at">color =</span> <span class="st">"Fake"</span>) <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Relación entre Seguidores, Palabras en el Nombre Completo y Fake"</span>) <span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>)) <span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizaciondatos_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Podemos ver claramente en el gráfico como existe una separación notable entre cuentas fake y no fake en funcion del número de seguidores que tienen, aunque no es tan significante el número de palabtas en el nombre completo. Podemos probar a modelarlo en función de otros atributos…</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(all_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">#follows</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">profile pic</span><span class="st">`</span>, <span class="at">color =</span> <span class="fu">as.factor</span>(fake))) <span class="sc">+</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Número de Seguidos"</span>, <span class="at">y =</span> <span class="st">"¿Tiene foto de perfil?"</span>, <span class="at">color =</span> <span class="st">"Fake"</span>) <span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Relación entre Seguidores, Palabras en el Nombre Completo y Fake"</span>) <span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>)) <span class="sc">+</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizaciondatos_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Se aprecia como en el caso de las cuentas que no presentan foto de perfil, no importa el número de seguidores que tengan ya que podemos asegurar casi al 100% de firmeza que se va a tratar de una cuenta falsa, lo cual es lógico pensar. En el caso de las cuentas que si presentan fotos en su cuenta, la distribución de cuentas fake es más complicada de ver.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="fu">subset</span>(all_data, <span class="st">`</span><span class="at">profile pic</span><span class="st">`</span> <span class="sc">==</span> <span class="dv">1</span>), <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">#follows</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">description length</span><span class="st">`</span>, <span class="at">color =</span> <span class="fu">as.factor</span>(fake))) <span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Número de Seguidos"</span>, <span class="at">y =</span> <span class="st">"Longitud de la descripcion de la cuenta"</span>, <span class="at">color =</span> <span class="st">"Fake"</span>) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Relación entre Seguidores, Palabras en el Nombre Completo y Fake"</span>) <span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>)) <span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizaciondatos_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Ahora vemos información mucho más útil de la cual poder extraer conocimiento. Se ve claramente en la parte superior derecha del gráfico un extensa densidad de puntos azules (cuentas verdades de Instagram), que corresponden a un intervalo aproximado (ignorando samples anómalos) de entre 100 y 1000 seguidos en su cuenta, y 8 y 110 palabra en la descripcion de dichas cuentas, lo cual es realmente lógico para nosotros. Cuando el número de palabras en la descripción es 0, es mucho más probable que estemos hablando de cuentas no verdaderas:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contar el número de cuentas fake y no fake con description length igual a 0</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">subset</span>(all_data, <span class="st">`</span><span class="at">description length</span><span class="st">`</span> <span class="sc">==</span> <span class="dv">0</span>)<span class="sc">$</span>fake)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  0   1 
+ 91 304 </code></pre>
+</div>
+</div>
+<p>Vemos que concretamente son 304 cuentas las que son fake cuando la descripción de sus cuentas es vacía, frente a 91 verdaderas.</p>
+<p>Existe otra herramienta de interes en el área de visualización de datasets (así como en regresión, por ejemplo) que es <a href="https://r-charts.com/correlation/pairs/?utm_content=cmp-true">pairs()</a>. Se trata de una herramienta versátil y poderosa utilizada en el análisis exploratorio de datos y la visualización. Su función principal es crear una matriz de gráficos de dispersión, lo que permite explorar las relaciones entre múltiples variables en un conjunto de datos de manera eficiente. Genera una cuadrícula de gráficos de dispersión donde cada celda representa la relación entre dos variables del conjunto de datos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(all_data, <span class="at">col =</span> <span class="st">"salmon"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizaciondatos_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Ggplot también permite hacer uso de <a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a> para simular un modelo linear de regresión sobre las variables que le indicamos. Sin embargo, no termina de ser demasiada útil, y más tarde en el apartado de <em>regresión</em> explotaremos de manera más inteligente este tipo de técnicas.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de dispersión de seguidores vs. publicaciones con línea de tendencia</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(all_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">#posts</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">#followers</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"darkblue"</span>) <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span>  <span class="co"># Agregar línea de tendencia</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Número de Publicaciones"</span>, <span class="at">y =</span> <span class="st">"Número de Seguidores"</span>) <span class="sc">+</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Relación entre Seguidores y Publicaciones con Línea de Tendencia"</span>) <span class="sc">+</span> <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="visualizaciondatos_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Podríamos hacer un único gráfico, que se componga a su vez de otros 2 subgráficos. Esto lo lograremos haciendo uso de <a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid</a>. Concretamente, haremos la división a partir de si los datos presentan fotos en su perfil.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(all_data) <span class="sc">+</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">#followers</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">nums/length username</span><span class="st">`</span>, <span class="at">color =</span> <span class="st">`</span><span class="at">fake</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="at">rows =</span> <span class="fu">vars</span>(<span class="st">`</span><span class="at">profile pic</span><span class="st">`</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizaciondatos_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>O incluso podríamos ir un paso más alla. Discretizando alguno de los atributos de nuestro dataset y añadiendo más separación de subgráficos. ¡Vamos a ello!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>all_data_discretizado <span class="ot">&lt;-</span> all_data</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>all_data_discretizado<span class="sc">$</span><span class="st">`</span><span class="at">description length</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="fu">cut</span>(all_data_discretizado<span class="sc">$</span><span class="st">`</span><span class="at">description length</span><span class="st">`</span>, <span class="at">breaks =</span> <span class="dv">3</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Poca"</span>, <span class="st">"Media"</span>, <span class="st">"Mucha"</span>))</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(all_data_discretizado) <span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">#followers</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">nums/length username</span><span class="st">`</span>, <span class="at">color =</span> <span class="st">`</span><span class="at">fake</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="at">rows =</span> <span class="fu">vars</span>(<span class="st">`</span><span class="at">profile pic</span><span class="st">`</span>), <span class="at">cols =</span> <span class="fu">vars</span>(<span class="st">`</span><span class="at">description length</span><span class="st">`</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizaciondatos_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Esta composición de gráficos nos permite sacar varias conclusiones visual y rapidamente. Por un lado nos podemos centrar en la primera columna. Se trata de un subplot filtrado para aquellas filas de nuestro dataset que presentan una longitud de descripcion corta (la gran mayoría del dataset por lo que podemos ver). Dentro de esta columna del subplot, se ve claramente, como ya habíamos concluido antes, que las cuentas que no tienen foto de perfil son siempre falsas, y si tienen, la distribución entonces está un poco más repartida. En el caso de las otras columnas (descripciones medias y altas), en la gran mayoría de los datos se trata de cuentas verdaderas, salvo casos excepcionales.</p>
+<p>Ahora que hemos explorado a fondo nuestros datos a través de diversas técnicas de visualización, podemos pasar a la interesante sección de reglas de asociación. En esta fase, nos adentraremos en el mundo de las relaciones y patrones ocultos en nuestros datos, utilizando técnicas avanzadas para descubrir insights valiosos.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./analisisexploratorio.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Análisis exploratorio de datos</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./reglasasociacion.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Reglas de asociación</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

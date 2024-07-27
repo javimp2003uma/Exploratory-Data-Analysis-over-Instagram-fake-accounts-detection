@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>TAREA PROYECTO - BOOK LCC - 1&nbsp; Análisis exploratorio de datos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./visualizaciondatos.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./analisisexploratorio.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Análisis exploratorio de datos</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">TAREA PROYECTO - BOOK LCC</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analisisexploratorio.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Análisis exploratorio de datos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./visualizaciondatos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Visualización de datos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reglasasociacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Reglas de asociación</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./fca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">FCA</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./regresion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Regresión</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./seriestemporales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Series temporales</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./otrastecnicas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Otras técnicas</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#comenzando-el-análisis-con-dplyr" id="toc-comenzando-el-análisis-con-dplyr" class="nav-link active" data-scroll-target="#comenzando-el-análisis-con-dplyr"><span class="header-section-number">1.1</span> Comenzando el análisis con dplyr</a></li>
+  <li><a href="#un-poco-de-summarytools" id="toc-un-poco-de-summarytools" class="nav-link" data-scroll-target="#un-poco-de-summarytools"><span class="header-section-number">1.2</span> Un poco de <em>summarytools</em></a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Análisis exploratorio de datos</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Nos encontramos ante la primera sección de nuestro book. En el mundo actual, donde la información es poder, el análisis exploratorio de datos (<a href="https://en.wikipedia.org/wiki/Exploratory_data_analysis">EDA</a>) se ha convertido en un componente fundamental para comprender y extraer conocimiento significativo de conjuntos de datos. El análisis exploratorio de datos en R no solo es una herramienta poderosa, sino también una práctica esencial en el arsenal de cualquier científico de datos, investigador o profesional en campos tan diversos como la ciencia, la ingeniería, la medicina, las finanzas y demás. Pongamos pues manos a la obra con el problema que ahora nos interesa.</p>
+<div style="text-align:center;">
+<p><a href="https://es.wikipedia.org/wiki/An%C3%A1lisis_exploratorio_de_datos"> <img src="images/4.jpg" alt="Imagen" width="200"> </a></p>
+</div>
+<p>Lo primero que debemos de hacer es, suponiendo que ya hemos descargado el dataset de manera manual desde la plataforma de Kaggle, debemos proceder a importarlo en nuestro entorno. Para ello haré uso de <a href="https://cran.r-project.org/web/packages/readr/index.html">readr</a>, un paquete de R que permite importar archivos con extension CSV, es decir, un formato típico de datasets o tablas que contienen una determinada información a partir de ciertas filas y columnas. Para ello usaremos en concreto <a href="https://www.rdocumentation.org/packages/qtl2/versions/0.32/topics/read_csv">read_csv</a>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"datasets/train.csv"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"datasets/test.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Como ya comentamos más arriba, debido al origen de la finalidad que tenía el artículo del cual hemos extraido el dataset, se presentaba el dataset estructurado en 2 trozos de cara al entrenamiento y posterior “testeo” del modelo que se trataba de construir en el mismo. Nosotros lo que haremos será buscar alguna función que permita concatenar por filas varios conjuntos de datos. La elección perfecta será <a href="https://www.digitalocean.com/community/tutorials/rbind-function-r">rbind</a>. No se debe confundir con <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/cbind">cbind</a>, la cual realiza una acción similar a la anterior, pero por columnas, por lo que nuestro dataset final quedaría con 24 atributos, aunque no buscamos eso…</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>all_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(train, test)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">is.data.frame</span>(all_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">head</span>(all_data, <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 13%">
+<col style="width: 9%">
+<col style="width: 13%">
+<col style="width: 9%">
+<col style="width: 12%">
+<col style="width: 8%">
+<col style="width: 5%">
+<col style="width: 4%">
+<col style="width: 7%">
+<col style="width: 5%">
+<col style="width: 3%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">profile pic</th>
+<th style="text-align: right;">nums/length username</th>
+<th style="text-align: right;">fullname words</th>
+<th style="text-align: right;">nums/length fullname</th>
+<th style="text-align: right;">name==username</th>
+<th style="text-align: right;">description length</th>
+<th style="text-align: right;">external URL</th>
+<th style="text-align: right;">private</th>
+<th style="text-align: right;">#posts</th>
+<th style="text-align: right;">#followers</th>
+<th style="text-align: right;">#follows</th>
+<th style="text-align: right;">fake</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.27</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">53</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">955</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">44</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">286</td>
+<td style="text-align: right;">2740</td>
+<td style="text-align: right;">533</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.10</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">159</td>
+<td style="text-align: right;">98</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">679</td>
+<td style="text-align: right;">414</td>
+<td style="text-align: right;">651</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">151</td>
+<td style="text-align: right;">126</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div style="text-align: center;">
+<p><br> <i>PD: durante mi proyecto haré uso de una función <a href="https://bookdown.org/yihui/rmarkdown-cookbook/kable.html">knitr::kable()</a> para una mayor visualización de los datasets resultantes y mostrados.*</i></p>
+</div>
+<p>Una vez tenemos en la variable <em>all_data</em> el conjunto de datos a estudiar (además de haber confirmado con <a href="https://www.geeksforgeeks.org/check-if-the-object-is-a-data-frame-in-r-programming-is-data-frame-function/">is.data.frame</a> que se trata del tipo de datos que necesitamos y haberle echado un primer vistazo con <a href="https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/head">head</a>) podemos proceder a realizar una breve introducción sobre los atributos que vamos a tratar, debido a que se encuentran en inglés:</p>
+<ol>
+<li>
+<span style="font-weight: bold;">profile pic:</span> usuario tiene foto de perfil o no.
+</li>
+<li>
+<span style="font-weight: bold;">nums/length username:</span> ratio de caracteres numericos sobre la longitud del nombre de usuario.
+</li>
+<li>
+<span style="font-weight: bold;">fullname words:</span> palabras completas del nombre de la cuenta en cuestión.
+</li>
+<li>
+<span style="font-weight: bold;">nums/length fullname:</span> ratio de caracteres numericos sobre la longitud del nombre completo.
+</li>
+<li>
+<span style="font-weight: bold;">name==username:</span> son el nombre completo y el nombre de usuario literalmente iguales.
+</li>
+<li>
+<span style="font-weight: bold;">description length:</span> longitud de la descripción del perfil.
+</li>
+<li>
+<span style="font-weight: bold;">external URL:</span> tiene URL externa o no.
+</li>
+<li>
+<span style="font-weight: bold;">private:</span> cuenta privada o no.
+</li>
+<li>
+<span style="font-weight: bold;">#posts:</span> número de publicaciones.
+</li>
+<li>
+<span style="font-weight: bold;">#followers:</span> número de seguidores.
+</li>
+<li>
+<span style="font-weight: bold;">#follows:</span> número de seguidos.
+</li>
+<li>
+<span style="font-weight: bold;">fake:</span> es fake o no. <u>(inferencia)</u>
+</li>
+</ol>
+<section id="comenzando-el-análisis-con-dplyr" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="comenzando-el-análisis-con-dplyr"><span class="header-section-number">1.1</span> Comenzando el análisis con dplyr</h2>
+<p>Como no podía ser de otra forma, comenzaremos nuestra aventura haciendo uso de <a href="https://rsanchezs.gitbooks.io/rprogramming/content/chapter9/dplyr.html">dplyr</a>. Desarrollado por <a href="https://en.wikipedia.org/wiki/Hadley_Wickham">Hadley Wickham</a>, es un paquete diseñado para facilitar y agilizar las tareas de manipulación, transformación y filtrado de datos en R. Con una sintaxis clara y concisa, <em>“dplyr”</em> proporciona una serie de funciones intuitivas que permiten realizar operaciones comunes de manera eficiente y elegante.</p>
+<p>En primer lugar cargaremos dicho paquete, y comenzaremos a aplicar ciertas técnicas a nuestro dataset…</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(all_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  profile pic     nums/length username fullname words   nums/length fullname
+ Min.   :0.0000   Min.   :0.0000       Min.   : 0.000   Min.   :0.00000     
+ 1st Qu.:0.0000   1st Qu.:0.0000       1st Qu.: 1.000   1st Qu.:0.00000     
+ Median :1.0000   Median :0.0000       Median : 1.000   Median :0.00000     
+ Mean   :0.7112   Mean   :0.1666       Mean   : 1.476   Mean   :0.04217     
+ 3rd Qu.:1.0000   3rd Qu.:0.3300       3rd Qu.: 2.000   3rd Qu.:0.00000     
+ Max.   :1.0000   Max.   :0.9200       Max.   :12.000   Max.   :1.00000     
+ name==username    description length  external URL       private      
+ Min.   :0.00000   Min.   :  0.00     Min.   :0.0000   Min.   :0.0000  
+ 1st Qu.:0.00000   1st Qu.:  0.00     1st Qu.:0.0000   1st Qu.:0.0000  
+ Median :0.00000   Median :  0.00     Median :0.0000   Median :0.0000  
+ Mean   :0.03592   Mean   : 23.41     Mean   :0.1135   Mean   :0.3693  
+ 3rd Qu.:0.00000   3rd Qu.: 35.00     3rd Qu.:0.0000   3rd Qu.:1.0000  
+ Max.   :1.00000   Max.   :150.00     Max.   :1.0000   Max.   :1.0000  
+     #posts         #followers          #follows           fake    
+ Min.   :   0.0   Min.   :       0   Min.   :   0.0   Min.   :0.0  
+ 1st Qu.:   0.0   1st Qu.:      42   1st Qu.:  61.0   1st Qu.:0.0  
+ Median :   9.0   Median :     166   Median : 252.0   Median :0.5  
+ Mean   : 103.2   Mean   :   79150   Mean   : 555.1   Mean   :0.5  
+ 3rd Qu.:  77.0   3rd Qu.:     693   3rd Qu.: 601.8   3rd Qu.:1.0  
+ Max.   :7389.0   Max.   :15338538   Max.   :7500.0   Max.   :1.0  </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>numberOfWithPicProfiles <span class="ot">&lt;-</span> all_data <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">filter</span>(<span class="st">`</span><span class="at">profile pic</span><span class="st">`</span> <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">n</span>())</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">with =</span> numberOfWithPicProfiles<span class="sc">$</span>total, <span class="at">without =</span> <span class="fu">nrow</span>(all_data) <span class="sc">-</span> numberOfWithPicProfiles<span class="sc">$</span>total)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   with without 
+    495     201 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>porcentajeWith <span class="ot">&lt;-</span>  numberOfWithPicProfiles<span class="sc">$</span>total <span class="sc">/</span> <span class="fu">nrow</span>(all_data)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">with =</span> porcentajeWith, <span class="at">without =</span> <span class="dv">1</span> <span class="sc">-</span> porcentajeWith)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     with   without 
+0.7112069 0.2887931 </code></pre>
+</div>
+</div>
+<p>Podemos apreciar como un alrededor del 70% de los datos que se nos ha proporcionado en el dataframe son de cuentas que presentan una foto de perfil. <strong>¿Y si quisieramos saber cuantos de ellos tienen cuentas fake?</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pic_fake <span class="ot">&lt;-</span> all_data <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>            <span class="fu">group_by</span>(<span class="st">`</span><span class="at">profile pic</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>            <span class="fu">summarise</span>(<span class="at">fake =</span> <span class="fu">sum</span>(fake <span class="sc">==</span> <span class="dv">1</span>),</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">nofake =</span> <span class="fu">n</span>() <span class="sc">-</span> fake)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(pic_fake)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">profile pic</th>
+<th style="text-align: right;">fake</th>
+<th style="text-align: right;">nofake</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">199</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">149</td>
+<td style="text-align: right;">346</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Ya hemos comenzado a extraer información, ¡es nuestro primer paso! Vemos en la salida del último <em>“chunk”</em> como para un casi 100% de las entradas de nuestra tabla donde la cuenta no tiene foto de perfil, se trata de una cuenta de Instagram fake (lo cual tiene cierto sentido, porque el primer paso para desconfiar de alguien que comienza a seguirnos es que no presenta una foto en su perfil), mientras que para aquellas cuentan que contienen foto de perfil, el reconocer sobre la vericidad de la cuenta se hace más complicado. Aún asi, ¡vamos a seguir trabajando en ello! Centrémonos en las cuentas que tienen foto de perfil:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>valoresPublicaciones <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">unique</span>(all_data<span class="sc">$</span><span class="st">`</span><span class="at">#posts</span><span class="st">`</span>))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>puntos_corte <span class="ot">&lt;-</span> <span class="fu">quantile</span>(valoresPublicaciones, <span class="at">probs =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">10</span> <span class="sc">+</span> <span class="dv">1</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>publicacionesPerfilesConFoto <span class="ot">&lt;-</span> all_data <span class="sc">%&gt;%</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>          <span class="fu">mutate</span>(<span class="at">post_group =</span> <span class="fu">cut</span>(<span class="st">`</span><span class="at">#posts</span><span class="st">`</span>, <span class="at">breaks =</span> puntos_corte)) <span class="sc">%&gt;%</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>          <span class="fu">filter</span>(<span class="st">`</span><span class="at">profile pic</span><span class="st">`</span> <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>          <span class="fu">group_by</span>(post_group) <span class="sc">%&gt;%</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>          <span class="fu">summarise</span>(<span class="at">fake =</span> <span class="fu">sum</span>(fake <span class="sc">==</span> <span class="dv">1</span>),</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">no_fake =</span> <span class="fu">n</span>() <span class="sc">-</span> fake)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(publicacionesPerfilesConFoto)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">post_group</th>
+<th style="text-align: right;">fake</th>
+<th style="text-align: right;">no_fake</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(0,21]</td>
+<td style="text-align: right;">86</td>
+<td style="text-align: right;">97</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">(21,43]</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">35</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">(43,72]</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">40</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">(72,100]</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">32</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">(100,141]</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">22</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">(141,209]</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">27</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">(209,274]</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">23</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">(274,396]</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">22</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">(396,664]</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">21</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">(664,7.39e+03]</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">21</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Podemos ver como, haciendo uso de la función <a href="https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/quantile">quantile</a> para dividir en rangos de publicaciones a los usuarios de nuestra tabla, se puede apreciar una clara disminución del número de cuentas fake a medida que se aumenta el número de publicaciones. Esto, “traducido a lenguaje coloquial”, sería algo así como <strong>“esta cuenta no puede ser fake, ¡ha subido demasiadas cosas!”</strong>. Realmente esta conclusión no es del todo fiable, ya que únicamente el número de publicaciones que una cuenta tenga no nos sirve para extraer información definitiva.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>medidasCuentas <span class="ot">&lt;-</span> all_data <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">group_by</span>(fake) <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">summarise</span>(<span class="at">meanNLusername =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">nums/length username</span><span class="st">`</span>),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">maxNLusername =</span> <span class="fu">max</span>(<span class="st">`</span><span class="at">nums/length username</span><span class="st">`</span>),</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                            <span class="at">meanWordsFL =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">fullname words</span><span class="st">`</span>),</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">meanDescrLen =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">description length</span><span class="st">`</span>),</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>                            <span class="at">name_eq_usern =</span> <span class="fu">sum</span>(<span class="st">`</span><span class="at">name==username</span><span class="st">`</span> <span class="sc">==</span> <span class="dv">1</span>)<span class="sc">/</span><span class="fu">n</span>(),</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>                            <span class="at">name_neq_usern =</span> <span class="fu">sum</span>(<span class="st">`</span><span class="at">name==username</span><span class="st">`</span> <span class="sc">==</span> <span class="dv">0</span>)<span class="sc">/</span><span class="fu">n</span>())</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(medidasCuentas)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 5%">
+<col style="width: 17%">
+<col style="width: 15%">
+<col style="width: 13%">
+<col style="width: 14%">
+<col style="width: 15%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">fake</th>
+<th style="text-align: right;">meanNLusername</th>
+<th style="text-align: right;">maxNLusername</th>
+<th style="text-align: right;">meanWordsFL</th>
+<th style="text-align: right;">meanDescrLen</th>
+<th style="text-align: right;">name_eq_usern</th>
+<th style="text-align: right;">name_neq_usern</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0418103</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">1.798851</td>
+<td style="text-align: right;">41.882184</td>
+<td style="text-align: right;">0.0057471</td>
+<td style="text-align: right;">0.9942529</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.2914080</td>
+<td style="text-align: right;">0.92</td>
+<td style="text-align: right;">1.152299</td>
+<td style="text-align: right;">4.942529</td>
+<td style="text-align: right;">0.0660920</td>
+<td style="text-align: right;">0.9339080</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>La salida de esta última aplicación de <em>“dplyr”</em> comienza ya a especificarnos un poco más. Si nos fijamos, hemos dividido la salida en 2 filas, una para cada una de las inferencias que buscamos de manera general: cuentas fake o no fake. Para cada una de ellas hemos computado diferentes métricas que nos van a resultar realmente útiles. Vemos como existe una gran diferencia entre la media de caracteres numéricos sobre la longitud del nombre de usuario en cuentas que son fake <strong>(porque sí,</strong> <u>john323243598362</u> nos genera más sospecha que <u>pedrito03</u>). Además, para fortalecer dicha métrica, he mostrado también justo a su derecha los valores máximos para dicho atributos en ambos tipos de cuentas, obteniéndose un 0.5 en no fake y un 0.92 en fake, es decir, el 92% de los caracteres de algun usuario fake eran números, lo cual a priori parece una “locura”.</p>
+<p>No solo tenemos eso, por lo general las cuentas fake presentan muchas menos palabras en sus nombres completos o dichas cuentas presentan normalmente un mayor porcentaje de igualdad entre “username” y nombre completo. Por último, la métrica más abultada, la longitud de las <strong>descripciones de las cuentas</strong>. La media de este atributo en cuentas fake es de <strong>4</strong> palabras, mientras que en las no fake es de <strong>41</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>otherMetrics <span class="ot">&lt;-</span> all_data <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>          <span class="fu">group_by</span>(fake) <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>          <span class="fu">summarise</span>(<span class="at">meanFollowers =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">#followers</span><span class="st">`</span>),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">meanFollows =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">#follows</span><span class="st">`</span>),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">private =</span> <span class="fu">sum</span>(private <span class="sc">==</span> <span class="dv">1</span>),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">porcPrivate =</span> private <span class="sc">/</span> <span class="fu">n</span>() <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">notprivate =</span> <span class="fu">n</span>() <span class="sc">-</span> private,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">porcNotPrivate =</span> notprivate <span class="sc">/</span> <span class="fu">n</span>() <span class="sc">*</span> <span class="dv">100</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(otherMetrics)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 18%">
+<col style="width: 15%">
+<col style="width: 10%">
+<col style="width: 15%">
+<col style="width: 14%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">fake</th>
+<th style="text-align: right;">meanFollowers</th>
+<th style="text-align: right;">meanFollows</th>
+<th style="text-align: right;">private</th>
+<th style="text-align: right;">porcPrivate</th>
+<th style="text-align: right;">notprivate</th>
+<th style="text-align: right;">porcNotPrivate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">158157.1868</td>
+<td style="text-align: right;">712.8736</td>
+<td style="text-align: right;">151</td>
+<td style="text-align: right;">43.39080</td>
+<td style="text-align: right;">197</td>
+<td style="text-align: right;">56.60920</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">142.6236</td>
+<td style="text-align: right;">397.2989</td>
+<td style="text-align: right;">106</td>
+<td style="text-align: right;">30.45977</td>
+<td style="text-align: right;">242</td>
+<td style="text-align: right;">69.54023</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Hemos usado ahora otras métricas, las cuales nos siguen dado realmente información relevante sobre el dataset que estamos tratando. Concretamente vemos como la <strong>media de seguidores</strong> que presentan los perfiles no fake de Instagram es casi 1000 veces más que el de las fake, siendo estas <strong>160.000</strong> y <strong>142</strong> correspondientemente. Al igual, ocurre algo similar con el número de seguidos, donde la diferencia quizás no es tan abultada, aunque sí notable. Por último, en cuanto al atributo de la <strong>privacidad</strong> de la cuenta o perfil, un <strong>30%</strong> de las cuentas fake son privadas frente a un <strong>70%</strong> de cuentas públicas. (lo cual es lógico pensar ya que el fin de una cuenta fake no es ocultar nada, caso que ocurre en las cuentas de personas reales, que prefieren ocultar su privacidad y ser visibles solo para personas cercanas y/o conocidas). De esta última razón viene el <strong>44%</strong> de cuentas privadas frente a un <strong>56%</strong> de públicas en cuentas verdaderas.</p>
+</section>
+<section id="un-poco-de-summarytools" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="un-poco-de-summarytools"><span class="header-section-number">1.2</span> Un poco de <em>summarytools</em></h2>
+<p>En el vasto universo del análisis de datos, navegar por conjuntos de datos complejos puede ser como aventurarse en un laberinto sin un mapa claro. ¿Cómo podemos destilar la esencia de nuestros datos de manera eficiente y efectiva? Ahí es donde entra en juego <a href="https://cran.r-project.org/web/packages/summarytools/vignettes/introduction.html"><em>summarytools</em></a>, un nuevo amigo en el camino del análisis de datos, no impartido durante la asignatura, pero que considero que puede estar interesante mencionar y utilizar, aunque en menor medida.</p>
+<p>Pero, ¿qué hace que summarytools sea tan especial? Es como tener a un experto en análisis de datos a tu lado, pero sin la jerga complicada y los gráficos confusos. Con solo unas pocas líneas de código, summarytools te ofrece un resumen claro y conciso de tus datos, desde estadísticas descriptivas hasta tablas de frecuencia y matrices de correlación.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(summarytools)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">descr</span>(all_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Descriptive Statistics  
+all_data  
+N: 696  
+
+                     #followers   #follows    #posts   description length   external URL     fake
+----------------- ------------- ---------- --------- -------------------- -------------- --------
+             Mean      79149.91     555.09    103.24                23.41           0.11     0.50
+          Std.Dev     842887.54    1023.61    378.03                38.60           0.32     0.50
+              Min          0.00       0.00      0.00                 0.00           0.00     0.00
+               Q1         42.00      61.00      0.00                 0.00           0.00     0.00
+           Median        165.50     252.00      9.00                 0.00           0.00     0.50
+               Q3        695.00     602.50     77.00                35.00           0.00     1.00
+              Max   15338538.00    7500.00   7389.00               150.00           1.00     1.00
+              MAD        223.13     320.98     13.34                 0.00           0.00     0.74
+              IQR        651.00     540.75     77.00                35.00           0.00     1.00
+               CV         10.65       1.84      3.66                 1.65           2.80     1.00
+         Skewness         14.35       4.39     13.08                 1.79           2.43     0.00
+      SE.Skewness          0.09       0.09      0.09                 0.09           0.09     0.09
+         Kurtosis        225.93      22.84    223.13                 2.33           3.92    -2.00
+          N.Valid        696.00     696.00    696.00               696.00         696.00   696.00
+        Pct.Valid        100.00     100.00    100.00               100.00         100.00   100.00
+
+Table: Table continues below
+
+ 
+
+                    fullname words   name==username   nums/length fullname   nums/length username
+----------------- ---------------- ---------------- ---------------------- ----------------------
+             Mean             1.48             0.04                   0.04                   0.17
+          Std.Dev             1.08             0.19                   0.14                   0.22
+              Min             0.00             0.00                   0.00                   0.00
+               Q1             1.00             0.00                   0.00                   0.00
+           Median             1.00             0.00                   0.00                   0.00
+               Q3             2.00             0.00                   0.00                   0.33
+              Max            12.00             1.00                   1.00                   0.92
+              MAD             1.48             0.00                   0.00                   0.00
+              IQR             1.00             0.00                   0.00                   0.33
+               CV             0.73             5.18                   3.41                   1.31
+         Skewness             3.32             4.98                   4.31                   1.26
+      SE.Skewness             0.09             0.09                   0.09                   0.09
+         Kurtosis            23.01            22.80                  21.41                   0.99
+          N.Valid           696.00           696.00                 696.00                 696.00
+        Pct.Valid           100.00           100.00                 100.00                 100.00
+
+Table: Table continues below
+
+ 
+
+                    private   profile pic
+----------------- --------- -------------
+             Mean      0.37          0.71
+          Std.Dev      0.48          0.45
+              Min      0.00          0.00
+               Q1      0.00          0.00
+           Median      0.00          1.00
+               Q3      1.00          1.00
+              Max      1.00          1.00
+              MAD      0.00          0.00
+              IQR      1.00          1.00
+               CV      1.31          0.64
+         Skewness      0.54         -0.93
+      SE.Skewness      0.09          0.09
+         Kurtosis     -1.71         -1.14
+          N.Valid    696.00        696.00
+        Pct.Valid    100.00        100.00</code></pre>
+</div>
+</div>
+<p>Al ejecutar el comando <a href="https://rdrr.io/cran/summarytools/man/descr.html#google_vignette">descr()</a> para obtener estadísticas descriptivas de nuestro conjunto de datos all_data, hemos obtenido una visión completa de las características numéricas y categóricas que lo componen. (696 observaciones)</p>
+<p>El resumen descriptivo revela que las cuentas tienen, en promedio, alrededor de 79150 seguidores, 555 seguidos y 103 publicaciones. Se observa una gran variabilidad en las estadísticas, con desviaciones estándar significativas. La distribución de las métricas varía ampliamente, demostrado por los valores mínimo y máximo, así como los cuartiles y la mediana.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">freq</span>(all_data<span class="sc">$</span>private)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Frequencies  
+all_data$private  
+Type: Numeric  
+
+              Freq   % Valid   % Valid Cum.   % Total   % Total Cum.
+----------- ------ --------- -------------- --------- --------------
+          0    439     63.07          63.07     63.07          63.07
+          1    257     36.93         100.00     36.93         100.00
+       &lt;NA&gt;      0                               0.00         100.00
+      Total    696    100.00         100.00    100.00         100.00</code></pre>
+</div>
+</div>
+<p>Al ejecutar freq(all_data$private), obtenemos una visión detallada de la distribución de la variable private en nuestro conjunto de datos. La mayoría de las cuentas (439, 63.07%) son públicas (valor 0), mientras que 257 cuentas (36.93%) son privadas (valor 1). No hay valores faltantes para esta variable. Esta información nos permite comprender mejor la proporción de cuentas públicas y privadas en nuestro conjunto de datos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriz de correlación para variables numéricas</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>cor_matrix <span class="ot">&lt;-</span> <span class="fu">cor</span>(<span class="fu">select</span>(all_data, <span class="sc">-</span><span class="fu">c</span>(<span class="st">`</span><span class="at">profile pic</span><span class="st">`</span>, <span class="st">`</span><span class="at">fullname words</span><span class="st">`</span>, <span class="st">`</span><span class="at">name==username</span><span class="st">`</span>, <span class="st">`</span><span class="at">description length</span><span class="st">`</span>, <span class="st">`</span><span class="at">external URL</span><span class="st">`</span>, <span class="st">`</span><span class="at">private</span><span class="st">`</span>, <span class="st">`</span><span class="at">fake</span><span class="st">`</span>)))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Resumen descriptivo de la matriz de correlación</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">descr</span>(cor_matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Descriptive Statistics  
+
+                    #followers   #follows   #posts   nums/length fullname   nums/length username
+----------------- ------------ ---------- -------- ---------------------- ----------------------
+             Mean         0.25       0.18     0.25                   0.27                   0.22
+          Std.Dev         0.45       0.47     0.46                   0.47                   0.51
+              Min        -0.06      -0.17    -0.16                  -0.06                  -0.17
+               Q1        -0.03      -0.05    -0.06                  -0.05                  -0.16
+           Median         0.02       0.02     0.11                  -0.03                  -0.06
+               Q3         0.34       0.11     0.34                   0.47                   0.47
+              Max         1.00       1.00     1.00                   1.00                   1.00
+              MAD         0.12       0.14     0.34                   0.05                   0.15
+              IQR         0.37       0.17     0.41                   0.52                   0.63
+               CV         1.76       2.56     1.87                   1.76                   2.37
+         Skewness         0.78       0.95     0.66                   0.61                   0.55
+      SE.Skewness         0.91       0.91     0.91                   0.91                   0.91
+         Kurtosis        -1.35      -1.07    -1.43                  -1.65                  -1.74
+          N.Valid         5.00       5.00     5.00                   5.00                   5.00
+        Pct.Valid       100.00     100.00   100.00                 100.00                 100.00</code></pre>
+</div>
+</div>
+<p>Al calcular la matriz de correlación entre algunas variables numéricas en nuestro conjunto de datos, observamos varias tendencias y relaciones interesantes. Las métricas descriptivas revelan que las variables tienen diferentes grados de variabilidad y distribución.</p>
+<p>El análisis de correlación revela que las variables tienen correlaciones moderadas en promedio (alrededor de 0.25), con una amplia dispersión indicada por la desviación estándar. Las correlaciones varían entre -0.06 y 1.00, sugiriendo una variedad de relaciones lineales y no lineales entre las variables. Además, la asimetría y la curtosis proporcionan información sobre la distribución de las correlaciones, destacando diferencias en la dispersión entre los pares de variables.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dfSummary</span>(all_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Data Frame Summary  
+all_data  
+Dimensions: 696 x 12  
+Duplicates: 4  
+
+-----------------------------------------------------------------------------------------------------------------------------
+No   Variable               Stats / Values                   Freqs (% of Valid)    Graph                 Valid      Missing  
+---- ---------------------- -------------------------------- --------------------- --------------------- ---------- ---------
+1    profile pic            Min  : 0                         0 : 201 (28.9%)       IIIII                 696        0        
+     [numeric]              Mean : 0.7                       1 : 495 (71.1%)       IIIIIIIIIIIIII        (100.0%)   (0.0%)   
+                            Max  : 1                                                                                         
+
+2    nums/length username   Mean (sd) : 0.2 (0.2)            58 distinct values    :                     696        0        
+     [numeric]              min &lt; med &lt; max:                                       :                     (100.0%)   (0.0%)   
+                            0 &lt; 0 &lt; 0.9                                            :                                         
+                            IQR (CV) : 0.3 (1.3)                                   :                                         
+                                                                                   : : . : : . .                             
+
+3    fullname words         Mean (sd) : 1.5 (1.1)            11 distinct values    :                     696        0        
+     [numeric]              min &lt; med &lt; max:                                       :                     (100.0%)   (0.0%)   
+                            0 &lt; 1 &lt; 12                                             : :                                       
+                            IQR (CV) : 1 (0.7)                                     : :                                       
+                                                                                   : : .                                     
+
+4    nums/length fullname   Mean (sd) : 0 (0.1)              27 distinct values    :                     696        0        
+     [numeric]              min &lt; med &lt; max:                                       :                     (100.0%)   (0.0%)   
+                            0 &lt; 0 &lt; 1                                              :                                         
+                            IQR (CV) : 0 (3.4)                                     :                                         
+                                                                                   :                                         
+
+5    name==username         Min  : 0                         0 : 671 (96.4%)       IIIIIIIIIIIIIIIIIII   696        0        
+     [numeric]              Mean : 0                         1 :  25 ( 3.6%)                             (100.0%)   (0.0%)   
+                            Max  : 1                                                                                         
+
+6    description length     Mean (sd) : 23.4 (38.6)          114 distinct values   :                     696        0        
+     [numeric]              min &lt; med &lt; max:                                       :                     (100.0%)   (0.0%)   
+                            0 &lt; 0 &lt; 150                                            :                                         
+                            IQR (CV) : 35 (1.6)                                    :                                         
+                                                                                   : . . . .                                 
+
+7    external URL           Min  : 0                         0 : 617 (88.6%)       IIIIIIIIIIIIIIIII     696        0        
+     [numeric]              Mean : 0.1                       1 :  79 (11.4%)       II                    (100.0%)   (0.0%)   
+                            Max  : 1                                                                                         
+
+8    private                Min  : 0                         0 : 439 (63.1%)       IIIIIIIIIIII          696        0        
+     [numeric]              Mean : 0.4                       1 : 257 (36.9%)       IIIIIII               (100.0%)   (0.0%)   
+                            Max  : 1                                                                                         
+
+9    #posts                 Mean (sd) : 103.2 (378)          211 distinct values   :                     696        0        
+     [numeric]              min &lt; med &lt; max:                                       :                     (100.0%)   (0.0%)   
+                            0 &lt; 9 &lt; 7389                                           :                                         
+                            IQR (CV) : 77 (3.7)                                    :                                         
+                                                                                   :                                         
+
+10   #followers             Mean (sd) : 79149.9 (842887.5)   435 distinct values   :                     696        0        
+     [numeric]              min &lt; med &lt; max:                                       :                     (100.0%)   (0.0%)   
+                            0 &lt; 165.5 &lt; 15338538                                   :                                         
+                            IQR (CV) : 651 (10.6)                                  :                                         
+                                                                                   :                                         
+
+11   #follows               Mean (sd) : 555.1 (1023.6)       468 distinct values   :                     696        0        
+     [numeric]              min &lt; med &lt; max:                                       :                     (100.0%)   (0.0%)   
+                            0 &lt; 252 &lt; 7500                                         :                                         
+                            IQR (CV) : 540.8 (1.8)                                 :                                         
+                                                                                   : .                                       
+
+12   fake                   Min  : 0                         0 : 348 (50.0%)       IIIIIIIIII            696        0        
+     [numeric]              Mean : 0.5                       1 : 348 (50.0%)       IIIIIIIIII            (100.0%)   (0.0%)   
+                            Max  : 1                                                                                         
+-----------------------------------------------------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+<p>El resumen detallado de all_data proporcionado por <a href="https://cran.r-project.org/web/packages/summarytools/vignettes/introduction.html#data-frame-summaries-dfsummary">dfSummary()</a> ofrece una visión completa de las características y distribuciones de las variables en nuestro conjunto de datos. Este resumen incluye estadísticas descriptivas, tablas de frecuencia y métricas adicionales que nos ayudan a comprender la naturaleza de nuestros datos. Con esta información, estamos mejor equipados para realizar análisis más profundos y tomar decisiones informadas basadas en la comprensión completa de nuestro conjunto de datos.</p>
+<p>Considero que los pasos dados hasta ahora pueden conformar de manera completa un análisis exploratorio de datos del dataset que nos concierne. Sin embargo, esto no ha hecho más que empezar, porque los <a href="visualizaciondatos.html">métodos de visualización</a> vistos en la asignatura nos van a permitir ver de manera visual y clara todo lo que hemos ido detallando con <em>“dplyr”</em> o <em>“summarytools”</em>, y mucho más…</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Introducción</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./visualizaciondatos.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Visualización de datos</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
