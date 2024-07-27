@@ -1,0 +1,28 @@
+project:
+  type: book
+
+book:
+  title: "TAREA PROYECTO - BOOK LCC"
+  subtitle: "Fake Instagram Profile Detection from Kaggle"
+  author: "Javier Montes Pérez"
+  date: "3/17/2024"
+  chapters:
+    - index.qmd
+    - analisisexploratorio.qmd
+    - visualizaciondatos.qmd
+    - reglasasociacion.qmd
+    - fca.qmd
+    - regresion.qmd
+    - seriestemporales.qmd
+    - otrastecnicas.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: pulse
+  pdf:
+    documentclass: scrreprt
+
+editor: visual
+

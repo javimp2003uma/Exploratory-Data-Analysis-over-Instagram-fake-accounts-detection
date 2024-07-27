@@ -1,0 +1,230 @@
+# Reglas de asociación
+
+A menudo nos encontramos con conjuntos de datos complejos que contienen una gran cantidad de información valiosa. Sin embargo, entre las vastas filas y columnas de números y atributos, a menudo se esconden patrones y relaciones que no son evidentes a simple vista. Aquí es donde entran en juego las reglas de asociación: una potente técnica de minería de datos que nos permite descubrir conexiones ocultas y asociaciones significativas entre los elementos de nuestros datos.
+
+Las reglas de asociación nos permiten identificar patrones frecuentes, revelar relaciones interesantes y descubrir insights que de otro modo podrían pasar desapercibidos. Desde la cesta de la compra en el supermercado hasta el comportamiento del usuario en sitios web, las reglas de asociación han demostrado ser invaluable para comprender el comportamiento humano y las relaciones entre los elementos. Algunas de las aplicaciones más reconocidas dentro de este mundo son marketing y ventas, análisis de cestas de compra (*Market Basket Analysis*), recomendación de productos, etc.
+
+<div style="text-align:center;">
+  <a href="https://es.wikipedia.org/wiki/Reglas_de_asociaci%C3%B3n">
+    <img src="images/6.png" alt="Imagen" width="300"/>
+  </a>
+</div>
+
+Para sumergirnos de lleno en reglas de asociación, como no podía ser de otra manera haremos uso de [arules](https://cran.r-project.org/package=arules), que nos ofrece un conjunto diverso de herramientas para desentrañar los secretos de nuestros datos y obtener insights accionables para la toma de decisiones. Con más de 25000 descargas mensuales, [Michael Hahsler](https://michael.hahsler.net/) logró desarrollar un extenso paquete que hoy en día es usado en numerosas herramientas de Data Mining. Si él nos hizo el favor de crearlo, nosotros nos vemos en la obligación de darle uso.
+
+```{r}
+library(arules)
+# Como es costumbre, cargamos el dataset
+library(readr)
+train <- read_csv("datasets/train.csv")
+test <- read_csv("datasets/test.csv")
+all_data <- rbind(train, test)
+```
+
+Sin embargo, ahora nos encontramos con un problema, y es que *arules* y su algoritmos están diseñados para trabajar con datos categóricos o binarios. Si los datos son continuos, como los números enteros o flotantes, es necesario discretizarlos en rangos o categorías. Por ello, debemos de hacer uso de [cut()](https://rpubs.com/Changery/854478), para convertir cada atributo de nuestro dataset en uno discretizado...
+
+```{r}
+all_data_transactions <- all_data
+
+all_data_transactions$`profile pic` <- cut(all_data$`profile pic`, breaks = 2,labels = c("No tiene", "Tiene"),include.lowest = TRUE)
+
+all_data_transactions$`fullname words` <- cut(all_data$`fullname words`, breaks = 3,labels = c("Bajo", "Medio", "Alto"),include.lowest = TRUE)
+
+all_data_transactions$`nums/length fullname` <- cut(all_data$`nums/length fullname`, breaks = 3,labels = c("Bajo", "Medio", "Alto"),include.lowest = TRUE)
+
+all_data_transactions$`nums/length username` <- cut(all_data$`nums/length username`, breaks = 3, labels = c("Bajo", "Medio", "Alto"), include.lowest = TRUE)
+
+all_data_transactions$`description length` <- cut(all_data$`description length`, breaks = 3, labels = c("Bajo", "Medio", "Alto"), include.lowest = TRUE)
+
+all_data_transactions$`external URL` <- cut(all_data$`external URL`, breaks = 2, labels = c("No tiene", "Tiene"), include.lowest = TRUE)
+
+all_data_transactions$private <- cut(all_data$private, breaks = 2, labels = c("No", "Sí"), include.lowest = TRUE)
+
+all_data_transactions$fake <- cut(all_data$fake, breaks = 2, labels = c("No", "Sí"), include.lowest = TRUE)
+
+all_data_transactions$`name==username` <- cut(all_data$`name==username`, breaks = 2, labels = c("No", "Si"), include.lowest = TRUE)
+
+all_data_transactions$`#posts` <- cut(all_data$`#posts`, breaks = 3, labels = c("Bajo", "Medio", "Alto"), include.lowest = TRUE)
+
+all_data_transactions$`#followers` <- cut(all_data$`#followers`, breaks = 3, labels = c("Bajo", "Medio", "Alto"), include.lowest = TRUE)
+
+all_data_transactions$`#follows` <- cut(all_data$`#follows`, breaks = 3, labels = c("Bajo", "Medio", "Alto"), include.lowest = TRUE)
+```
+
+Una vez hemos discretizado cada una de las variables o atributos que componen nuestro dataset, con [as(transactions)](https://www.rdocumentation.org/packages/arules/versions/1.6-8/topics/transactions-class) pasamos el conjunto total de datos a transacciones, para poder trabajar con reglas de asociación.
+
+```{r}
+all_data_transactions <- as(all_data_transactions, "transactions")
+inspect(all_data_transactions[1:2])
+```
+
+Una vez hemos preparado nuestro conjunto de datos, ya podemos pasar a identificar patrones frecuentes, revelar relaciones interesantes y descubrir insights. Para ello, el trabajo con *arules* se hace muy sencilla. Usando simplemente la función [apriori](https://www.rdocumentation.org/packages/arules/versions/1.6-2/topics/apriori) pasándole por parámetro el sesgo de confianza y soporte que queremos para las reglas, podemos obtenerlas de manera rápida y sencilla. Un poco de la matemática que hay de fondo en *apriori*...
+
+El soporte de un conjunto de elementos $X$, denotado como $Sop(X)$, se define como la proporción de filas en un conjunto de datos $D$ que contienen todos los elementos de $X$. Matemáticamente, se expresa como:
+
+$$
+\text{Sop}(X) = \frac{|X|}{|D|}
+$$
+
+La confianza de una regla de asociación $( X \rightarrow Y )$, denotada como $\text{Conf}(X \rightarrow Y)$, se define como la proporción de filas en un conjunto de datos $( D )$ que contienen tanto $( X )$ como $( Y )$, en relación con las filas que contienen $( X )$. Matemáticamente, se expresa como:
+
+$$
+\text{Conf}(X \rightarrow Y) = \frac{\text{Sop}(X \cup Y)}{\text{Sop}(X)}
+$$
+
+```{r results='hide'}
+reglas <- apriori(all_data_transactions,
+                  parameter = list(supp = 0.5, conf = 0.8))
+```
+
+```{r}
+length(reglas)
+inspect(reglas[1:10])
+```
+
+Aunque resulte extraño, algunas de las reglas que se nos han generado (concretamente las 8 primeras), presentan el conjunto vacío a la izquierda, pero no hay por qué asustarse. Esto podría ser solucionado simplemente añadiendo un parámetro más a *parameter*, que sería *minlen = 2*. Sin embargo, ni siquiera es necesario porque las reglas que contienen *lhs* vacío (parte izquierda), son igualmente útiles porque identifican patrones de comportamiento o relaciones entre elementos que ocurren de forma independiente de otros elementos. Esto significa que estas reglas capturan asociaciones fuertes entre un elemento o atributo y otro, sin depender de la presencia o ausencia de otros elementos.
+
+Si quiseramos hacer un resumen cuantitativo de las reglas que hemos extraido en el paso anterior, podríamos usar [summary()](https://adallak.github.io/Resources/Lab7#:~:text=In%C2%A0%5B3%5D%3A-,summary(Groceries),-transactions%20as%20itemMatrix).
+
+```{r}
+summary(reglas)
+```
+
+Donde podemos ver que el output muestra un conjunto de 2846 reglas de asociación. La distribución de la longitud de las reglas revela que la mayoría tienen entre 4 y 6 elementos. Las medidas de calidad incluyen soporte, confianza, cobertura y lift, proporcionando información sobre la frecuencia y fiabilidad de las reglas. El conteo máximo indica que la regla más frecuente se observó en 694 transacciones.
+
+Podemos pasar ahora a mostrar ejemplos simples de usos del paquete *arules*. Podemos empezar con las funciones que nos permiten quedarnos con la parte izquierda y derecha de las reglas que queramos.
+
+```{r}
+reglaConcreta <- reglas[1243]
+inspect(reglaConcreta)
+inspect(lhs(reglaConcreta))
+inspect(rhs(reglaConcreta))
+```
+
+Una manera util de ver todo lo que se puede hacer con un determinado objeto en R, es usar *str(objeto)*. Esto nos produce un output con todos los atributos y metodos de dicho objeto (como en programación orientada a objetos). Por ejemplo, si quisieramos saber qué podemos hacer con el conjunto de reglas que hemos extraido anteriormente...
+
+```{r}
+str(reglas)
+```
+
+Y ahora usamos las cosas que vemos en el ouput
+
+```{r}
+head(reglas@quality$confidence)
+
+reglas@lhs@itemInfo$labels
+
+reglas@info$ntransactions
+```
+
+*Arules* también nos permite realizar un detallado filtrado sobre un conjunto de reglas. Esto es útil en muchas ocasiones. Por ejemplo, imaginemosno que tenemos un dataset que hemos convertido a transactions y que corresponden a compras que se han realizado en *Mercadona*. Quizás, el jefe está interesado en conocer que relaciones existen en las compras de los clientes, y para ello manda a sus ingenieros a qué hagan uso de *arules* para extraer conocimiento. Concretamente, los especialistas usarán [subset](https://rdrr.io/cran/arules/man/subset.html#google_vignette). La manera de usarlo es:
+
+```{r}
+reglas.sub1 <- subset(reglas,
+                      subset = lhs %in% c("name==username=No","#followers=Medio"))
+
+inspect(reglas.sub1[100:110])
+```
+
+Se queda con reglas que en su izquierda contienen o "name==username" o "followers = Medio".
+
+```{r}
+reglas.sub2 <- subset(reglas,
+                      subset = lhs %ain% c("fullname words=Bajo","#followers=Bajo"))
+inspect(reglas.sub2[1:10])
+```
+
+Se queda con reglas que en su izquierda contienen "fullname words=Bajo" y "#followers=Bajo".
+
+```{r}
+reglas.sub3 <- subset(reglas,subset = lhs %pin% "private=")
+```
+
+Se queda con reglas que en la izquierda contienen "private=", sin especificar si es si o no. (por ello es un partial matching).
+
+Si quisieramos ver visualmente las reglas con las que estamos trabajando...
+
+```{r}
+library(arulesViz)
+plot(reglas)
+```
+
+Y si quisieramos que el gráfico fuera interactivo...
+
+```{r}
+#Ejecutar en vuestro ordenador
+plot(reglas, engine = "htmlwidget")
+```
+
+Vamos a probar ahora a ordenar nuestro conjunto de reglas. El support de una regla de asociación indica la frecuencia con la que se observan todos los elementos de la regla en el conjunto de datos. Cuanto mayor sea el support, más común es la regla en los datos. La confianza de una regla indica la probabilidad de que el consecuente ocurra dado que el antecedente está presente. Cuanto mayor sea la confianza, más fuerte es la relación entre el antecedente y el consecuente.
+
+Si quisieramos ordenar por tanto, nuestra reglas, algunos ejemplos de ello serían:
+
+```{r}
+reglasOrdSup <- sort(reglas, by = "support")
+inspect(reglasOrdSup[1:10])
+reglasOrdSup@quality$support[1:10]
+```
+
+```{r}
+reglasOrdConf <- sort(reglas, by = "confidence")
+inspect(reglasOrdConf[1:10])
+reglasOrdConf@quality$confidence[1:10]
+```
+
+Las reglas que hemos almacenado en *reglasOrdConf* están ordenadas por confianza, lo cual nos da realmente juego a la hora de extraer información y relaciones ocultas en nuestro dataset. Hemos hecho *inspect* de las 10 primeras pero, ¿por qué no quedarnos directamente con todas las reglas de nuestro conjunto que tengan confidence igual a 1, por ejemeplo?
+
+```{r}
+reglasAseguradas <- subset(reglasOrdConf, subset = confidence == 1)
+length(reglasAseguradas)
+inspect(reglasAseguradas[1])
+```
+
+Se trata de reglas con confianza máxima. Una confianza de 1 en una regla de asociación significa que el consecuente de la regla siempre ocurre cuando el antecedente está presente en el conjunto de datos. En otras palabras, la confianza del 100% indica una relación perfecta entre el antecedente y el consecuente, lo que significa que cada vez que se cumple el antecedente, también se cumple el consecuente sin excepción. Vamos a extraer conocimiento de dichas reglas.
+
+```{r}
+reglasAseguradas.sub1 <- subset(reglasAseguradas,
+                                subset = lhs %oin% "fake=Sí")
+inspect(reglasAseguradas.sub1)
+```
+
+Estas 3 reglas que hemos encontrado nos indican según su confianza que **SIEMPRE** que la cuenta que estamos tratando es fake, dicha cuenta ni tendrá URL externa, sus seguidores serán un número bajo y tendrá pocas publicaciones compartidas en su cuenta.
+
+```{r}
+reglasAseguradas.sub2 <- subset(reglasAseguradas,
+                                subset = lhs %ain% c("external URL=No tiene","fake=Sí"))
+inspect(reglasAseguradas.sub2)
+```
+
+Las 4 reglas obtenidas nos muestran como, cuando la cuenta que estamos tratando o de la cual se quiera extraer conocimiento presente una cuenta sin URL existente y que sea falsa, estamos seguros que sus seguidores serán bajos y sus publicaciones también.
+
+Vamos a tratar de encontrar si alguna de las reglas de las cuales partiamos tenía el *"atributo inferencia"* "fake" en su parte derecha, lo cual sería realmente útil ya que serían reglas que nos daría conocimiento de una serie de premisas que nos llevarían a decidir si la cuenta es fake o verdadera con una cierta confianza.
+
+```{r}
+subset(reglas,subset = rhs %pin% "fake=")
+```
+
+Como se puede ver en el ouput del chunk, no se encuentra ninguna regla. Podemos probar a generar reglas de nuevo, esta vez tratando de proporcionar parámetros menos restrictivos...
+
+```{r results='hide'}
+reglas2 <- apriori(all_data_transactions,
+                  parameter = list(supp = 0.5, conf = 0.5))
+```
+
+```{r}
+reglas2.sub1 <- subset(reglas2, subset = rhs %pin% "fake=")
+
+length(reglas2.sub1)
+
+inspect(reglas2.sub1)
+```
+
+Si vamos un paso más alla, podemos ser curiosos y fijarnos en las 2 primeras reglas que se nos generan. Dicen que se parte de {} y se llega a "fake=No" y "fake=Si" respectivamente, cada una de ellas con una confianza de 0,5. Por la definición de confianza, sabemos que es el porcentaje con el cual la parte se da en el caso en el que se de la parte izquierda, y si pensamos en el número de *samples* que tenian los valores de "fake" tiene sentido:
+
+```{r}
+knitr::kable(table(all_data$fake))
+```
+
+Volviendo al resto de reglas sin tener en cuenta las 2 primeras, las reglas 3, 4, y 5 sugieren que ciertos atributos como la ausencia de URL externa, un número bajo de seguidores o un número bajo de publicaciones están asociados con una alta probabilidad de que la cuenta sea falsa ("fake=Sí"), el resto son similares. Si nos fijamos, solo existe una única regla con respecto a la presencia de cuentas verdaderas de Instagram. Se trata de de aquellas cuentas que presentan *nums/length fullname=Bajo*. Como ya hemos comentado a lo largo del book, es algo que ya conocíamos.
+
+Concluimos así nuestra inmersión en el mundo de las reglas de asociación, donde hemos explorado cómo estas nos permiten descubrir patrones ocultos en nuestros datos, revelando relaciones significativas entre diferentes variables. A través de herramientas como arules, hemos desentrañado los secretos de nuestros conjuntos de datos y hemos obtenido insights valiosos para la toma de decisiones. Ahora nos adentramos en FCA *(Análisis de Conceptos Formales por sus siglas en ingles)*, una potente técnica nos permite explorar las relaciones entre conjuntos de datos desde una perspectiva diferente, centrada en la estructura de conceptos y la jerarquía de atributos.

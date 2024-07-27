@@ -1,0 +1,68 @@
+# Series temporales
+
+Las series temporales son un componente fundamental en el análisis de datos, que nos permite entender y modelar el comportamiento de variables a lo largo del tiempo. Desde el análisis económico hasta la predicción del clima, las series temporales son utilizadas en una amplia gama de campos para revelar patrones, identificar tendencias y realizar pronósticos.
+
+::: {style="text-align:center;"}
+<a href="https://es.wikipedia.org/wiki/Serie_temporal"> <img src="images/7.png" alt="Imagen" width="300"/> </a>
+:::
+
+Es cierto que nuestro conjunto de datos no es quizás el mejor para analizar series temporales, ya que parece estar más orientado hacia el análisis de perfiles de redes sociales. Sin embargo, podríamos utilizar algunas de las variables presentes, como el número de publicaciones (`#posts`), el número de seguidores (`#followers`), y el número de seguidos (`#follows`), para realizar un análisis temporal de la actividad de los usuarios en las redes sociales.
+
+```{r}
+library(readr)
+train <- read_csv("datasets/train.csv")
+test <- read_csv("datasets/test.csv")
+all_data <- rbind(train, test)
+```
+
+Usando la función [ts](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/ts) podemos trabajar con series temporales. Los argumentos que recibe suelen ser un vector de datos como primero, un comienzo o $start$ y la frecuencia o $frequency$. En este caso, podríamos probar de la siguiente manera:
+
+```{r}
+serieTemporal <- ts(all_data$`description length`, start = 1, frequency = 50)
+plot(serieTemporal)
+```
+
+Aunque como ya comentabamos anteriormente, al tratarse de un conjunto de datos que no presenta una esencia temporal en sus atributos, es complicado que la serie temporal obtenida nos proporcione cierta información útil. No obstante, como ya comentabamos arriba existen algunas tencicas que nos podráin llegar a permitir obtener ciertos resultado. Alguna que se me ocurre podría ser ordenar nuestro conjunto de datos por una de las variables, y mostrar en la serie temporal otra, con la condicion de que ambas presenten cierta correlación entre ellas. Recordando del apartado anterior...
+
+```{r}
+pairs(all_data[colnames(all_data)])
+knitr::kable(cor(all_data))
+```
+
+Parece ser que $nums/length \hspace{1mm} username$ y $nums/length \hspace{1mm} fullname$ podría llegar a ser la mejor opción a escoger, presentando este par de atributos un 0.47 de correlación mutua.
+
+```{r}
+pairs(all_data[c("nums/length username", "nums/length fullname")])
+```
+
+
+
+```{r}
+library(dplyr)
+all_data <- all_data %>%
+            arrange(all_data$`nums/length username`)
+serieTemporal <- ts(all_data$`nums/length fullname`, start = 1)
+plot(serieTemporal)
+```
+Si nos damos cuenta, ahora en la gráfica se aprecia claramente como la esencia temporal de la serie es controlada por la variable que hemos usado para ordenar el dataset, y el numero de datos que presenta la serie es igual al del conjunto de datos, ya que para cada par de valores $username$ - $fullname$ hemos usado el primero para tiempo y el segundo como inferencia de la serie.
+
+```{r}
+length(serieTemporal) == nrow(all_data)
+```
+
+```{r}
+summary(serieTemporal)
+mean(all_data$`nums/length fullname`)
+```
+
+```{r}
+aggregate(serieTemporal)
+```
+
+```{r}
+library(ggplot2)
+library(forecast)
+autoplot(serieTemporal)
+```
+
+Debido a la naturaleza de nuestro conjunto de datos, no disponíamos de partida atributos que tuvieran rasgos temporales, por lo que aplicar el campo de series temporales para nuestro dataset se convierte en una tarea realmente compleja.

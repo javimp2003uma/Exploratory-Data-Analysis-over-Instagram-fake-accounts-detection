@@ -1,0 +1,125 @@
+# Regresión
+
+Llega la hora de meternos de lleno en el mundo de los modelos de regresión. Se trata de un campos del análisis de datos realmente valioso e interesante ya que: **nos permite modelar y entender las relaciones entre variables** (lo que es fundamental para comprender cómo ciertos factores afectan a otros en un sistema dado), **podemos predecir valores futuros basados en datos históricos**, **La regresión nos proporciona herramientas para evaluar la calidad y validez de nuestros modelos**, **estos son de diferentes naturalezas y muy versátiles**, ...
+
+::: {style="text-align:center;"}
+<a href="https://es.wikipedia.org/wiki/Regresi%C3%B3n_lineal"> <img src="images/3.png" alt="Imagen" width="300"/> </a>
+:::
+
+El propósito final, por tanto, será encontrar modelos que dadas una serie de variables asociadas a un dataset, se ajusten a la nube de puntos generadas por las mismas, y que por tanto permita evaluar en un futuro datos que no han sido usados para generar el modelo en cuestión.
+
+```{r}
+library(readr)
+train <- read_csv("datasets/train.csv")
+test <- read_csv("datasets/test.csv")
+all_data <- rbind(train, test)
+```
+
+En primer lugar, para ver cuales pueden ser pares de variables interesantes de cara a representar, podemos usar [pairs](https://www.geeksforgeeks.org/how-to-create-and-interpret-pairs-plots-in-r/#:~:text=The%20pairs%20function%20is%20provided,variables%20in%20the%20data%20frame.&text=Parameter%3A,for%20plotting%20to%20scatter%20plot.)
+
+```{r}
+pairs(all_data[colnames(all_data)])
+knitr::kable(cor(all_data))
+
+maximoCor <- max(cor(all_data)[cor(all_data) != 1])
+
+which(cor(all_data) == maximoCor, arr.ind = TRUE)
+```
+
+El problema es que obtenemos que *fake* es la mejor opción de elección de atributos y sabemos que dicha variable es binaria, por lo que no se trataría de un modelo de regresión, sino de clasificación. Como este problema lo vamos a arrastrar durante esta sección, considero que una buena elección puede ser quitarnos temporalmente las variables binarias...
+
+```{r}
+binary_vars <- sapply(all_data, function(x) length(unique(x)) == 2)
+
+all_data <- all_data[,!binary_vars]
+
+knitr::kable(cor(all_data))
+```
+
+Parece ser que `nums/length fullname` y `nums/length username` puede ser una buena opción para comenzar. La función [lm()](https://www.institutomora.edu.mx/testU/SitePages/martinpaladino/modelos_lineales_con_R.html#ajuste-de-modelo-lineales-con-lm:~:text=y%20como%20interpretarlos.-,2%20Ajuste%20de%20modelo%20lineales%20con%20lm(),-lm()%20es) es la función de R para ajustar modelos lineales (la más importante). La manera de llevarla a la práctica es la siguiente:
+
+```{r}
+firstModel <- lm(`nums/length fullname` ~ `nums/length username`,
+                 data = all_data)
+firstModel
+```
+
+Para no tener que especificar siempre el dataset sobre el cual se extraen o usan los atributos, se puede usar [attach](https://reptantia.com/blogs/r/attach-y-detach-en-r).
+
+```{r}
+attach(all_data)
+plot(`nums/length username`,`nums/length fullname`)
+abline(firstModel)
+```
+
+```{r}
+summary(firstModel)
+```
+
+La salida del resumen (summary) del modelo de regresión lineal proporciona información importante sobre la ajuste del modelo a los datos y la significancia de las variables predictoras.
+
+-   **Residuals (Residuos):** Esta sección muestra estadísticas resumidas sobre los residuos del modelo, que son las diferencias entre los valores observados y los valores predichos por el modelo. Proporciona una idea de cómo se distribuyen los errores de predicción.
+-   **Coefficients (Coeficientes):** Esta tabla presenta los coeficientes estimados para cada variable predictora en el modelo. Los coeficientes indican la magnitud y la dirección de la relación entre cada variable predictora y la variable de respuesta. Además, los valores t y los valores p asociados con cada coeficiente ayudan a evaluar la significancia estadística de las variables predictoras.
+-   **Multiple R-squared (R cuadrado múltiple):** Este coeficiente de determinación indica la proporción de variabilidad en la variable de respuesta que es explicada por el modelo. Cuanto más cercano sea el R cuadrado a 1, mejor se ajusta el modelo a los datos.
+-   **F-statistic (Estadístico F):** Este estadístico se utiliza para probar la significancia global del modelo. Evalúa si al menos una de las variables predictoras tiene un efecto significativo sobre la variable de respuesta. El valor p asociado indica si el modelo en su conjunto es significativo
+
+Como se puede apreciar en el gráfico representado anteriormente, existen muchos puntos dondes *nums/length fullname* es igual a 0, lo que hace que la precisión de nuestro modelo de regresión se reduzca drásticamente. Una posible solución para esto podría ser eliminar dichos puntos...
+
+```{r}
+all_data_clean <- all_data[all_data$`nums/length fullname` != 0, ]
+secondModel <- lm(`nums/length fullname` ~ `nums/length username`,
+                 data = all_data_clean)
+secondModel
+```
+
+```{r}
+plot(all_data_clean$`nums/length username`,all_data_clean$`nums/length fullname`)
+abline(secondModel)
+```
+
+```{r}
+summary(secondModel)
+```
+
+¡Esto ha mejorado bastante! Este segundo modelo presenta un $R^2$ de 0.64, es decir, el modelo es capaz de acertar los puntos en un 64% de los casos, ademas de presentar un *p-value* realmente correcto. Si quisieramos ver algunas de las gráficas representativas del modelo...
+
+```{r}
+plot(firstModel)
+```
+
+Se aprecia como la última gráfica, se pueden interpretar las [distancias de Cook](https://en.wikipedia.org/wiki/Cook%27s_distance) para identificar observaciones influyentes en el modelo. Una regla general es que si la distancia de Cook para una observación es mayor que 1, esta observación puede tener una influencia desproporcionada en el modelo y podría considerarse influyente. Sin embargo, el umbral para considerar una observación como influyente puede variar según el contexto del problema y la cantidad de datos disponibles. Ademas, en el propio gráfico R nos muestra una serie de puntos etiquetados que representan aquellos que hacen que el modelo pierda eficacia, por lo que una posible solución de mejora del modelo de regresión sería quitarnos del medio dichos puntos.
+
+Podemos probar ahora a realizar un modelo entre `description length` y `nums/length username`.
+
+```{r}
+library(dplyr)
+library(ggplot2)
+all_data_clean_2 <- all_data[all_data$`description length` != 0 & all_data$`nums/length username` != 0, ]
+thirdModel <- lm(log(`nums/length username`) ~ `description length`,
+                 data = all_data_clean_2)
+thirdModel
+all_data_clean_2 %>%
+  ggplot(aes(x = `description length`, y = `nums/length username`)) +
+  geom_point() + 
+  geom_line(aes(x = `description length`, y = predict(thirdModel)))
+```
+
+```{r}
+fit0 <- all_data_clean_2$`nums/length username` ~ 1/(1 + all_data_clean_2$`description length`^c)
+thirdModelUpdated <- nls(fit0, data = all_data_clean_2, start = list(c = 1))
+```
+
+```{r}
+summary(thirdModelUpdated)
+```
+
+Haciendo uso de [*nls*](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/nls) y de una función exponencial hemos logrado obtener un resultado mucho mejor, como se puede ver visualmente.
+
+```{r}
+all_data_clean_2 %>%
+  ggplot(aes(x = `description length`, y = `nums/length username`)) +
+  geom_point() + 
+  geom_line(aes(x = `description length`, y = predict(thirdModelUpdated)),color="red")
+```
+
+Con esto terminamos la sección de modelos de regresión. Aunque esta vez hemos encontrado un poco más de dificultades debido a la naturaleza del dataset del cual disponemos, hemos logrado encontrar algunos modelos que muestran realmente información interesante de manera visual entre enfrentamientos de variables de nuestro conjunto de datos. Pasamos ahora a la parte de *series temporales*, conjuntos de datos que representan observaciones recopiladas en intervalos de tiempo regulares. Este campo de estudio se centra en el análisis, la modelización y la predicción de datos que varían con el tiempo.

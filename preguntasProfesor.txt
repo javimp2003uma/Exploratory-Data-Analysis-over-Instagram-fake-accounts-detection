@@ -1,0 +1,4 @@
+¿Como hacer para que todos los qmd compartan las mismas variables y asi no tener que instanciar el dataset en cada apartado
+del book?
+
+¿Como hacer con la visualizacion de datos?
