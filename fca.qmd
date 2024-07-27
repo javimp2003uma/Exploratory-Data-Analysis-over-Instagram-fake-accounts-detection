@@ -1,0 +1,335 @@
+# FCA
+
+El Análisis Formal de Conceptos (FCA) es una poderosa técnica de minería de datos que se originó en la década de 1980 como un enfoque para analizar y extraer conocimiento a partir de datos estructurados. FCA combina principios de la teoría de conjuntos, la lógica formal y la teoría de retículas para representar y explorar relaciones entre conjuntos de objetos y atributos en un contexto dado.
+
+::: {style="text-align:center;"}
+<a href="https://en.wikipedia.org/wiki/Formal_concept_analysis"> <img src="images/7.jpg" alt="Imagen" width="300"/> </a>
+:::
+
+Esta metodología se centra en la identificación de conceptos fundamentales dentro de un conjunto de datos, donde un concepto se define como un conjunto de objetos que comparten ciertas propiedades o características comunes. A través del proceso de análisis, FCA revela estructuras jerárquicas y relaciones de inclusión entre los conceptos, lo que permite una comprensión más profunda de la información subyacente y facilita la toma de decisiones informadas.
+
+El análisis formal de conceptos (FCA) (Wille, 1982; Ganter y Wille, 1999) es una herramienta matemáticamente bien fundamentada y por ello, nos va a ser de gran utilidad en nuestra extracción de patrones y conocimientos acerca de las cuentas de Instagram. Para ello, se hará uso de fcaR, un paquete desarrollado por equipo de investigadores en nuestra universidad que proporciona estructuras de datos que permiten al usuario trabajar sin problemas con contextos formales y conjuntos de implicaciones.
+
+```{r results='hide'}
+library(fcaR)
+library(readr)
+train <- read_csv("datasets/train.csv")
+test <- read_csv("datasets/test.csv")
+all_data <- rbind(train, test)
+```
+
+Como nos es necesario tener discretizado nuestro dataset, vamos a reutilizar el código de la sección anterior del book. Concretamente, la parte donde convertiamos en intervalos cada uno de las variables de nuestro dataset...
+
+```{r}
+all_data_transactions <- all_data
+
+all_data_transactions$`fullname words` <- cut(all_data$`fullname words`, breaks = 3,labels = c("Bajo", "Medio", "Alto"),include.lowest = TRUE)
+
+all_data_transactions$`nums/length fullname` <- cut(all_data$`nums/length fullname`, breaks = 3,labels = c("Bajo", "Medio", "Alto"),include.lowest = TRUE)
+
+all_data_transactions$`nums/length username` <- cut(all_data$`nums/length username`, breaks = 3, labels = c("Bajo", "Medio", "Alto"), include.lowest = TRUE)
+
+all_data_transactions$`description length` <- cut(all_data$`description length`, breaks = 3, labels = c("Bajo", "Medio", "Alto"), include.lowest = TRUE)
+
+all_data_transactions$`#posts` <- cut(all_data$`#posts`, breaks = 3, labels = c("Bajo", "Medio", "Alto"), include.lowest = TRUE)
+
+all_data_transactions$`#followers` <- cut(all_data$`#followers`, breaks = 3, labels = c("Bajo", "Medio", "Alto"), include.lowest = TRUE)
+
+all_data_transactions$`#follows` <- cut(all_data$`#follows`, breaks = 3, labels = c("Bajo", "Medio", "Alto"), include.lowest = TRUE)
+```
+
+Una vez se han discretizado las variables...
+
+```{r}
+fcInstagram <- FormalContext$new(all_data_transactions)
+```
+
+Tras haber creado el objeto de la clase *FormalContext* para empezar a trabajar, es necesario antes dejarlo preparado para lo mismo. Para ello, es necesario aplicar escalas mediante *scale*.
+
+```{r warning=FALSE}
+fcInstagram$scale("profile pic","Nominal")
+fcInstagram$scale("nums/length username","Biordinal")
+fcInstagram$scale("fullname words","Biordinal")
+fcInstagram$scale("nums/length fullname","Biordinal")
+fcInstagram$scale("name==username","Nominal")
+fcInstagram$scale("description length","Biordinal")
+fcInstagram$scale("external URL","Nominal")
+fcInstagram$scale("private","Nominal")
+fcInstagram$scale("#posts","Biordinal")
+fcInstagram$scale("#followers","Biordinal")
+fcInstagram$scale("#follows","Biordinal")
+fcInstagram$scale("fake","Nominal")
+```
+
+Para comprobar que todos los atributos se han escalado de manera correcta, y que el proceso ha ido como se esperaba, podemos mostrar los atributos del objeto FCA de la siguiente manera:
+
+```{r}
+fcInstagram$attributes
+```
+
+Como podemos ver en la salida, el haber aplicado unas discretizaciones iniciales aprovechadas de la sección anterior, además del escalado ha generado un total de 52 atributos en el objeto *FormalContext*. Esto, a la hora de generar los conceptos (que explicaremos más tarde con la función [find_concepts](https://cran-r--project-org.translate.goog/web/packages/fcaR/readme/README.html?_x_tr_sl=en&_x_tr_tl=es&_x_tr_hl=es&_x_tr_pto=sc#:~:text=Compute%20all%20concepts-,fc%24find_concepts(),-%23%20The%20first%20concept)) causaría una complejidad temporal de cómputo muy elevada, poco recomendable para aplicaciones cotidianas o de requerimiento temporal considerablemente rápido, como es nuestro caso. Por ello, vamos a tratar de arreglar esto...
+
+```{r}
+fcInstagram <- FormalContext$new(all_data)
+```
+
+Una posible solución para arreglar esto es calcular los *quantiles* para cada uno de los atributos, y aplicar un escalada por intervalos para dichos valores computados. De esta manera, la distribución y el número de atributos generados será mucho mejor. Se haría de la siguiente manera...
+
+$$
+Q(p) = \inf \{x : F(x) \geq p\}
+$$ donde $Q(p)$ es el cuantil por detrás de orden $p$, $F(x)$ es la función de distribución acumulativa e $inf$ es el ínfimo, es decir, el valor minimo del conjunto, donde:
+
+$$
+F(x) = P(X \leq x)
+$$
+
+```{r}
+#profile pic
+fcInstagram$scale("profile pic","Nominal")
+
+#nums/length username
+puntos_1 <- round(quantile(unique(all_data$`nums/length username`),
+                  c(1/3, 2/3)),digits = 2)
+fcInstagram$scale("nums/length username","Interval",
+                  values = c(-Inf,puntos_1[1],puntos_1[2],Inf))
+
+#fullname words
+puntos_2 <- round(quantile(unique(all_data$`fullname words`),
+                     c(1/2)), digits = 2)
+fcInstagram$scale("fullname words","Interval",
+                  values = c(-Inf,puntos_2[1],Inf))
+
+#nums/length fullname
+puntos_3 <- round(quantile(unique(all_data$`nums/length fullname`),
+                  c(1/3, 2/3)), digits = 2)
+fcInstagram$scale("nums/length fullname","Interval",
+                  values = c(-Inf,puntos_3[1],puntos_3[2],Inf))
+
+#name==username
+fcInstagram$scale("name==username","Nominal")
+
+#description length
+puntos_4 <- round(quantile(unique(all_data$`description length`),
+                  c(1/3, 2/3)), digits = 2)
+fcInstagram$scale("description length","Interval",
+                  values = c(-Inf,puntos_4[1],puntos_4[2],Inf))
+
+#external URL
+fcInstagram$scale("external URL","Nominal")
+
+#private
+fcInstagram$scale("private","Nominal")
+
+#posts
+puntos_5 <- round(quantile(unique(all_data$`#posts`),
+                  c(1/3, 2/3)), digits = 2)
+fcInstagram$scale("#posts","Interval",
+                  values = c(-Inf,puntos_5[1],puntos_5[2],Inf))
+
+#followers
+puntos_6 <- round(quantile(unique(all_data$`#followers`),
+                  c(1/3, 2/3)), digits = 2)
+fcInstagram$scale("#followers","Interval",
+                  values = c(-Inf,puntos_6[1],puntos_6[2],Inf))
+
+#follows
+puntos_7 <- round(quantile(unique(all_data$`#follows`),
+                  c(1/3, 2/3)), digits = 2)
+fcInstagram$scale("#follows","Interval",
+                  values = c(-Inf,puntos_7[1],puntos_7[2],Inf))
+
+#fake
+fcInstagram$scale("fake","Nominal")
+```
+
+Una vez hemos realizado todos los escalados de los diferentes atributos presentes en nuestro conjunto de datos, podemos probar a mostrar el numero de atributos presentes en el objeto *FormalContext*:
+
+```{r}
+length(fcInstagram$attributes)
+```
+
+Hemos logrado bajar de 52 atributos a 30. Puede que esta mejora nos permita poder calcular conceptos más tarde.
+
+Antes de nada, vamos a comenzar a investigar qué es capaz de hacer fcaR. En primer lugar, podemos definir las operaciones básicas: intent para calcular al conjunto de atributos que son compartidos por todos los objetos incluidos en ese concepto y extent para el conjunto de objetos que cumplen con todos los atributos especificados en el intento de ese concepto:
+
+$$
+A \uparrow \hspace{1mm} := \{m \in M : (g,m) \in I, \forall g \in A\}
+$$
+
+$$
+B \downarrow \hspace{1mm} := \{g \in G : (g,m) \in I, \forall m \in B\}
+$$
+
+Un ejemplo de ello podría ser...
+
+```{r}
+# Para calcuar {411,695}⬆
+set_objects <- Set$new(fcInstagram$objects)
+set_objects$assign("411" = 1, "695" = 1)
+fcInstagram$intent(set_objects)
+```
+
+```{r}
+# Para calcuar {private = 1,fake = 0}⬇
+set_attributes <- Set$new(fcInstagram$attributes)
+set_attributes$assign("private = 1" = 1, "fake = 0" = 1, "#posts is (-Inf, 81]" = 1)
+fcInstagram$extent(set_attributes)
+```
+
+Se define también la operación *closure*, como la combinación de las dos anteriores ⬇⬆. El uso de la misma es el siguiente:
+
+```{r}
+set_attributes1 <- Set$new(fcInstagram$attributes)
+set_attributes1$assign("fake = 1" = 1)
+fcInstagram$closure(set_attributes1)
+```
+
+Como se puede apreciar, la operación *closure* a priori parece que debería de volver al mismo atributo del cual partíamos, pero no es así. De hecho si lo pensamos, realmente lo que se hace internamente es ver que objetos del dataset comparten (en este caso) que son cuentas falsas, y luego ver de todos esos objetos que atributos comparten, por ello la operación no tiene por qué acabar como empezó.
+
+Una vez hemos visto las operaciones básicas de *fcaR* podemos pasar al plato fuerte. Se trata de los propios conceptos, que los calcularemos mediante [find_concepts](https://cran.r-project.org/web/packages/fcaR/readme/README.html#:~:text=Compute%20all%20concepts-,fc%24find_concepts(),-%23%20The%20first%20concept). Además, mediremos el tiempo de cómputo de la misma, mediante [Sys.time](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/Sys.time)...
+
+```{r}
+tiempoActual1 <- Sys.time()
+fcInstagram$find_concepts()
+tiempoActual2 <- Sys.time()
+
+tiempoActual2 - tiempoActual1
+
+fcInstagram$concepts$size()
+```
+
+Al ser un dataset con tantas filas, el número de conceptos que *fcaR* es realmente elevado.
+
+```{r}
+randIndex <- sample(1:fcInstagram$concepts$size(), 1)
+fcInstagram$concepts[randIndex]
+```
+
+Al igual que ocurría en reglas de asociación, es posible extraer subconjuntos de los conceptos en *fcaR* que presenten ciertas cualidad o caracteristicas a filtrar. Para ello, podríamos primero visualizar cuáles son los atributos públicos de los cuales dispone el *ConceptSet*.
+
+```{r}
+str(fcInstagram$concepts)
+```
+
+Vemos, por ejemplo, que disponemos de un atributo llamado *"support"*, que corresponde a los soportes de los distintos conceptos. Si quisieramos filtrar por ellos...
+
+```{r}
+idxFilteredConcepts <- which(fcInstagram$concepts$support() > 0.85)
+length(idxFilteredConcepts)
+```
+
+Se puede apreciar que de los 10837 conceptos que habíamos computado en primera instancia, solo 11 de ellos disponen de un *soporte* superior a 0,85.
+
+Usando la función [sublattice](https://search.r-project.org/CRAN/refmans/fcaR/html/ConceptLattice.html#method-ConceptLattice-sublattice) de *ConceptSet* podemos encontrar un subconjunto del conjunto de conceptos. Un sublattice es un subconjunto de conceptos que también forma un lattice completo, lo que significa que cumple con las propiedades de un lattice, como la existencia de un supremo y un ínfimo para cualquier par de elementos
+
+```{r}
+# Build the sublattice
+sublattice <- fcInstagram$concepts$sublattice(idxFilteredConcepts)
+sublattice
+sublattice$plot()
+```
+
+Hemos usado además [plot()](https://search.r-project.org/CRAN/refmans/fcaR/html/ConceptLattice.html#method-ConceptLattice-plot) de *ConceptSet* para mostrar el *lattice*. Genera un diagrama visual del conjunto de conceptos representando el lattice. Este diagrama muestra las relaciones de inclusión entre los conceptos, donde cada nodo del gráfico representa un concepto y las líneas conectan los mismos que están relacionados por la inclusión.
+
+Pasemos ahora a otra de las cualidades importantes de *fcaR*. Es capaz de encontrar implicaciones (de manera similar a lo que hacíamos con *apriori* en la sección anterior del book). Para hacer uso de esta funcionalidad, se llama a la función [find_implications](https://cran.r-project.org/web/packages/fcaR/readme/README.html#:~:text=fc%24find_implications()).
+
+```{r}
+fcInstagram$find_implications()
+```
+
+La manera de ver el número de implicaciones generadas o calculadas, es un poco distinta a como ocurría con los conceptos:
+
+```{r}
+# Opcion 1
+fcInstagram$implications$cardinality()
+# Opcion 2
+nrow(fcInstagram$implications$size())
+```
+
+```{r}
+fcInstagram$implications[1:5]
+```
+
+Si quisieramos ver cuál es la media de número de atributos en las partes izquierda y derecha de nuestras reglas, podríamos usar [colMeans](https://www.r-bloggers.com/2023/07/exploring-data-with-colmeans-in-r-a-programmers-guide/)...
+
+```{r}
+sizes <- fcInstagram$implications$size()
+colMeans(sizes)
+```
+
+Esto nos da una idea de la estructura general (en su mayoría) de las reglas de las cuales disponemos, siendo la media de la parte izquierda de 7 elementos/atributos frente a 2 aprox. en la parte derecha.
+
+Si quisieramos ver de manera más *"elegante"* y visual algunas de las reglas, *ImplicationSet* también dispone de un metodo [to_latex](https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.to_latex.html).
+
+```{r}
+fcInstagram$implications[1:3]$to_latex()
+```
+
+En el caso en el que quisieramos reducir los tamaños de las reglas (lo cual suele ser beneficioso a modo de preprocessing), podriamos hacer lo siguiente para lograrlo:
+
+```{r}
+equivalencesRegistry$get_entry_names()
+fcInstagram$implications$apply_rules(rules = c("composition",
+                                        "generalization",
+                                        "simplification"))
+```
+
+```{r}
+sizes <- fcInstagram$implications$size()
+colMeans(sizes)
+```
+
+Se puede apreciar como hemos reducido en 2 el tamaño de las partes izquierdas del conjunto de reglas. Como último toque sobre conceptos y *fcaR* podríamos incluir 2 métodos distintos de extracción de conocimiento a partir de reglas aprendidas a lo largo de la asignatura.
+
+```{r}
+# METODO 1 PARA EXTRAER INFORMACION
+cuentasFake <- fcInstagram$implications$filter(rhs="fake = 1",
+                                               not_rhs = "fake = 0")
+
+cuentasFake$cardinality()
+
+partesIzquierda <- cuentasFake$get_LHS_matrix()
+
+# Nos quedamos con las partes izquierdas de dichas reglas
+nombres_atributos_lista <- apply(partesIzquierda, 2, function(x) names(x[x == 1]))
+
+# Cada elemento de 'nombre_atributos_lista' es a su vez una lista
+length(nombres_atributos_lista)
+
+# En nombres_atributos_lista ya se pueden ver los atributos que mas se repiten y asi sacar conclusiones. Igualmente si quisieramos verlo de manera formal con table se puede ver la frecuencia de cada item.
+
+atribOrdFreq <- sort(table(unlist(nombres_atributos_lista)),
+                     decreasing = TRUE)
+
+knitr::kable(atribOrdFreq,
+             col.names = c("Atributo","Frecuencia/Repeticiones"))
+```
+
+Esto nos da una idea de los atributos que más se repiten en reglas que nos llevan de un conjunto de atributos $X$ hasta otro conjunto que al menos contiene $fake = 1$, que es el atributo inferencia o a modelar. Se aprecia que "nums/length username is (0.24, 0.5\]", "profile pic = 0", "#followers is (-Inf, 206.67\]" y "description length is (-Inf, 37.67\]" son los atributos que más aparecen en dichas reglas, y que por tanto son los que más decantan a la hora de decidir si la cuenta de Instagram en cuestión es fake o no.
+
+```{r}
+# METODO 2 PARA EXTRAER INFORMACION (mediante aRules)
+library(arules)
+
+reglas <- fcInstagram$implications$to_arules()
+
+reglas <- subset(reglas, rhs %in% "fake = 1")
+
+length(reglas)
+
+parteIzquierda <- lhs(reglas)@data
+
+nombres_atributos_lista <- apply(parteIzquierda, 2, function(x) reglas@lhs@itemInfo$labels[x])
+
+# En nombres_atributos_lista ya se pueden ver los atributos que mas se repiten y asi sacar conclusiones. Igualmente si quisieramos verlo de manera formal con table se puede ver la frecuencia de cada item.
+
+atribOrdFreq <- sort(table(unlist(nombres_atributos_lista)),
+                     decreasing = TRUE)
+
+knitr::kable(atribOrdFreq,
+             col.names = c("Atributo","Frecuencia/Repeticiones"))
+```
+
+Como era lógico pensar, y como se ha mencionado, ambos métodos son relativamente equivalente en cuanto a funcionalidad, y es por ello por lo que el conocimiento que se extrae en ambos es el mismo.
+
+Considero que con esto concluimos nuestra inmersión en el Análisis de Conceptos Formales (FCA), una potente disciplina que nos ha proporcionado una nueva perspectiva para entender la estructura de nuestros datos y descubrir patrones ocultos mediante la representación de conceptos y la exploración de implicaciones. Ahora, no sumergiremos en el mundo de los modelos de regresión, donde se verá cómo predecir y modelar variables de interés a partir de datos históricos y cómo utilizar estas predicciones para tomar decisiones informadas y resolver problemas del mundo real.

@@ -1,0 +1,182 @@
+# Análisis exploratorio de datos
+
+Nos encontramos ante la primera sección de nuestro book. En el mundo actual, donde la información es poder, el análisis exploratorio de datos ([EDA](https://en.wikipedia.org/wiki/Exploratory_data_analysis)) se ha convertido en un componente fundamental para comprender y extraer conocimiento significativo de conjuntos de datos. El análisis exploratorio de datos en R no solo es una herramienta poderosa, sino también una práctica esencial en el arsenal de cualquier científico de datos, investigador o profesional en campos tan diversos como la ciencia, la ingeniería, la medicina, las finanzas y demás. Pongamos pues manos a la obra con el problema que ahora nos interesa.
+
+::: {style="text-align:center;"}
+<a href="https://es.wikipedia.org/wiki/An%C3%A1lisis_exploratorio_de_datos"> <img src="images/4.jpg" alt="Imagen" width="200"/> </a>
+:::
+
+Lo primero que debemos de hacer es, suponiendo que ya hemos descargado el dataset de manera manual desde la plataforma de Kaggle, debemos proceder a importarlo en nuestro entorno. Para ello haré uso de [readr](https://cran.r-project.org/web/packages/readr/index.html), un paquete de R que permite importar archivos con extension CSV, es decir, un formato típico de datasets o tablas que contienen una determinada información a partir de ciertas filas y columnas. Para ello usaremos en concreto [read_csv](https://www.rdocumentation.org/packages/qtl2/versions/0.32/topics/read_csv).
+
+```{r message=FALSE}
+library(readr)
+train <- read_csv("datasets/train.csv")
+test <- read_csv("datasets/test.csv")
+```
+
+Como ya comentamos más arriba, debido al origen de la finalidad que tenía el artículo del cual hemos extraido el dataset, se presentaba el dataset estructurado en 2 trozos de cara al entrenamiento y posterior "testeo" del modelo que se trataba de construir en el mismo. Nosotros lo que haremos será buscar alguna función que permita concatenar por filas varios conjuntos de datos. La elección perfecta será [rbind](https://www.digitalocean.com/community/tutorials/rbind-function-r). No se debe confundir con [cbind](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/cbind), la cual realiza una acción similar a la anterior, pero por columnas, por lo que nuestro dataset final quedaría con 24 atributos, aunque no buscamos eso...
+
+```{r}
+all_data <- rbind(train, test)
+is.data.frame(all_data)
+knitr::kable(head(all_data, 5))
+```
+
+::: {style="text-align: center;"}
+<br> <i>PD: durante mi proyecto haré uso de una función [knitr::kable()](https://bookdown.org/yihui/rmarkdown-cookbook/kable.html) para una mayor visualización de los datasets resultantes y mostrados.\*</i>
+:::
+
+Una vez tenemos en la variable *all_data* el conjunto de datos a estudiar (además de haber confirmado con [is.data.frame](https://www.geeksforgeeks.org/check-if-the-object-is-a-data-frame-in-r-programming-is-data-frame-function/) que se trata del tipo de datos que necesitamos y haberle echado un primer vistazo con [head](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/head)) podemos proceder a realizar una breve introducción sobre los atributos que vamos a tratar, debido a que se encuentran en inglés:
+
+<ol>
+
+<li>[profile pic:]{style="font-weight: bold;"} usuario tiene foto de perfil o no.</li>
+
+<li>[nums/length username:]{style="font-weight: bold;"} ratio de caracteres numericos sobre la longitud del nombre de usuario.</li>
+
+<li>[fullname words:]{style="font-weight: bold;"} palabras completas del nombre de la cuenta en cuestión.</li>
+
+<li>[nums/length fullname:]{style="font-weight: bold;"} ratio de caracteres numericos sobre la longitud del nombre completo.</li>
+
+<li>[name==username:]{style="font-weight: bold;"} son el nombre completo y el nombre de usuario literalmente iguales.</li>
+
+<li>[description length:]{style="font-weight: bold;"} longitud de la descripción del perfil.</li>
+
+<li>[external URL:]{style="font-weight: bold;"} tiene URL externa o no.</li>
+
+<li>[private:]{style="font-weight: bold;"} cuenta privada o no.</li>
+
+<li>[#posts:]{style="font-weight: bold;"} número de publicaciones.</li>
+
+<li>[#followers:]{style="font-weight: bold;"} número de seguidores.</li>
+
+<li>[#follows:]{style="font-weight: bold;"} número de seguidos.</li>
+
+<li>[fake:]{style="font-weight: bold;"} es fake o no. <u>(inferencia)</u></li>
+
+</ol>
+
+## Comenzando el análisis con dplyr
+
+Como no podía ser de otra forma, comenzaremos nuestra aventura haciendo uso de [dplyr](https://rsanchezs.gitbooks.io/rprogramming/content/chapter9/dplyr.html). Desarrollado por [Hadley Wickham](https://en.wikipedia.org/wiki/Hadley_Wickham), es un paquete diseñado para facilitar y agilizar las tareas de manipulación, transformación y filtrado de datos en R. Con una sintaxis clara y concisa, *"dplyr"* proporciona una serie de funciones intuitivas que permiten realizar operaciones comunes de manera eficiente y elegante.
+
+En primer lugar cargaremos dicho paquete, y comenzaremos a aplicar ciertas técnicas a nuestro dataset...
+
+```{r message=FALSE}
+library(dplyr)
+summary(all_data)
+```
+
+```{r}
+numberOfWithPicProfiles <- all_data %>%
+                            filter(`profile pic` == 1) %>%
+                            summarise(total = n())
+c(with = numberOfWithPicProfiles$total, without = nrow(all_data) - numberOfWithPicProfiles$total)
+```
+
+```{r}
+porcentajeWith <-  numberOfWithPicProfiles$total / nrow(all_data)
+c(with = porcentajeWith, without = 1 - porcentajeWith)
+```
+
+Podemos apreciar como un alrededor del 70% de los datos que se nos ha proporcionado en el dataframe son de cuentas que presentan una foto de perfil. **¿Y si quisieramos saber cuantos de ellos tienen cuentas fake?**
+
+```{r}
+pic_fake <- all_data %>%
+            group_by(`profile pic`) %>%
+            summarise(fake = sum(fake == 1),
+                      nofake = n() - fake)
+knitr::kable(pic_fake)
+```
+
+Ya hemos comenzado a extraer información, ¡es nuestro primer paso! Vemos en la salida del último *"chunk"* como para un casi 100% de las entradas de nuestra tabla donde la cuenta no tiene foto de perfil, se trata de una cuenta de Instagram fake (lo cual tiene cierto sentido, porque el primer paso para desconfiar de alguien que comienza a seguirnos es que no presenta una foto en su perfil), mientras que para aquellas cuentan que contienen foto de perfil, el reconocer sobre la vericidad de la cuenta se hace más complicado. Aún asi, ¡vamos a seguir trabajando en ello! Centrémonos en las cuentas que tienen foto de perfil:
+
+```{r}
+valoresPublicaciones <- sort(unique(all_data$`#posts`))
+
+puntos_corte <- quantile(valoresPublicaciones, probs = seq(0, 1, length.out = 10 + 1), na.rm = TRUE)
+
+publicacionesPerfilesConFoto <- all_data %>%
+          mutate(post_group = cut(`#posts`, breaks = puntos_corte)) %>%
+          filter(`profile pic` == 1) %>%
+          group_by(post_group) %>%
+          summarise(fake = sum(fake == 1),
+                    no_fake = n() - fake)
+knitr::kable(publicacionesPerfilesConFoto)
+```
+
+Podemos ver como, haciendo uso de la función [quantile](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/quantile) para dividir en rangos de publicaciones a los usuarios de nuestra tabla, se puede apreciar una clara disminución del número de cuentas fake a medida que se aumenta el número de publicaciones. Esto, "traducido a lenguaje coloquial", sería algo así como **"esta cuenta no puede ser fake, ¡ha subido demasiadas cosas!"**. Realmente esta conclusión no es del todo fiable, ya que únicamente el número de publicaciones que una cuenta tenga no nos sirve para extraer información definitiva.
+
+```{r}
+medidasCuentas <- all_data %>%
+                  group_by(fake) %>%
+                  summarise(meanNLusername = mean(`nums/length username`),
+                            maxNLusername = max(`nums/length username`),
+                            meanWordsFL = mean(`fullname words`),
+                            meanDescrLen = mean(`description length`),
+                            name_eq_usern = sum(`name==username` == 1)/n(),
+                            name_neq_usern = sum(`name==username` == 0)/n())
+knitr::kable(medidasCuentas)
+```
+
+La salida de esta última aplicación de *"dplyr"* comienza ya a especificarnos un poco más. Si nos fijamos, hemos dividido la salida en 2 filas, una para cada una de las inferencias que buscamos de manera general: cuentas fake o no fake. Para cada una de ellas hemos computado diferentes métricas que nos van a resultar realmente útiles. Vemos como existe una gran diferencia entre la media de caracteres numéricos sobre la longitud del nombre de usuario en cuentas que son fake **(porque sí,** <u>john323243598362</u> nos genera más sospecha que <u>pedrito03</u>). Además, para fortalecer dicha métrica, he mostrado también justo a su derecha los valores máximos para dicho atributos en ambos tipos de cuentas, obteniéndose un 0.5 en no fake y un 0.92 en fake, es decir, el 92% de los caracteres de algun usuario fake eran números, lo cual a priori parece una "locura".
+
+No solo tenemos eso, por lo general las cuentas fake presentan muchas menos palabras en sus nombres completos o dichas cuentas presentan normalmente un mayor porcentaje de igualdad entre "username" y nombre completo. Por último, la métrica más abultada, la longitud de las **descripciones de las cuentas**. La media de este atributo en cuentas fake es de **4** palabras, mientras que en las no fake es de **41**.
+
+```{r}
+otherMetrics <- all_data %>%
+          group_by(fake) %>%
+          summarise(meanFollowers = mean(`#followers`),
+                    meanFollows = mean(`#follows`),
+                    private = sum(private == 1),
+                    porcPrivate = private / n() * 100,
+                    notprivate = n() - private,
+                    porcNotPrivate = notprivate / n() * 100)
+knitr::kable(otherMetrics)
+```
+
+Hemos usado ahora otras métricas, las cuales nos siguen dado realmente información relevante sobre el dataset que estamos tratando. Concretamente vemos como la **media de seguidores** que presentan los perfiles no fake de Instagram es casi 1000 veces más que el de las fake, siendo estas **160.000** y **142** correspondientemente. Al igual, ocurre algo similar con el número de seguidos, donde la diferencia quizás no es tan abultada, aunque sí notable. Por último, en cuanto al atributo de la **privacidad** de la cuenta o perfil, un **30%** de las cuentas fake son privadas frente a un **70%** de cuentas públicas. (lo cual es lógico pensar ya que el fin de una cuenta fake no es ocultar nada, caso que ocurre en las cuentas de personas reales, que prefieren ocultar su privacidad y ser visibles solo para personas cercanas y/o conocidas). De esta última razón viene el **44%** de cuentas privadas frente a un **56%** de públicas en cuentas verdaderas.
+
+## Un poco de *summarytools*
+
+En el vasto universo del análisis de datos, navegar por conjuntos de datos complejos puede ser como aventurarse en un laberinto sin un mapa claro. ¿Cómo podemos destilar la esencia de nuestros datos de manera eficiente y efectiva? Ahí es donde entra en juego [*summarytools*](https://cran.r-project.org/web/packages/summarytools/vignettes/introduction.html), un nuevo amigo en el camino del análisis de datos, no impartido durante la asignatura, pero que considero que puede estar interesante mencionar y utilizar, aunque en menor medida.
+
+Pero, ¿qué hace que summarytools sea tan especial? Es como tener a un experto en análisis de datos a tu lado, pero sin la jerga complicada y los gráficos confusos. Con solo unas pocas líneas de código, summarytools te ofrece un resumen claro y conciso de tus datos, desde estadísticas descriptivas hasta tablas de frecuencia y matrices de correlación.
+
+```{r}
+library(summarytools)
+```
+
+```{r}
+descr(all_data)
+```
+
+Al ejecutar el comando [descr()](https://rdrr.io/cran/summarytools/man/descr.html#google_vignette) para obtener estadísticas descriptivas de nuestro conjunto de datos all_data, hemos obtenido una visión completa de las características numéricas y categóricas que lo componen. (696 observaciones)
+
+El resumen descriptivo revela que las cuentas tienen, en promedio, alrededor de 79150 seguidores, 555 seguidos y 103 publicaciones. Se observa una gran variabilidad en las estadísticas, con desviaciones estándar significativas. La distribución de las métricas varía ampliamente, demostrado por los valores mínimo y máximo, así como los cuartiles y la mediana.
+
+```{r}
+freq(all_data$private)
+```
+
+Al ejecutar freq(all_data\$private), obtenemos una visión detallada de la distribución de la variable private en nuestro conjunto de datos. La mayoría de las cuentas (439, 63.07%) son públicas (valor 0), mientras que 257 cuentas (36.93%) son privadas (valor 1). No hay valores faltantes para esta variable. Esta información nos permite comprender mejor la proporción de cuentas públicas y privadas en nuestro conjunto de datos.
+
+```{r}
+# Matriz de correlación para variables numéricas
+cor_matrix <- cor(select(all_data, -c(`profile pic`, `fullname words`, `name==username`, `description length`, `external URL`, `private`, `fake`)))
+
+# Resumen descriptivo de la matriz de correlación
+descr(cor_matrix)
+```
+
+Al calcular la matriz de correlación entre algunas variables numéricas en nuestro conjunto de datos, observamos varias tendencias y relaciones interesantes. Las métricas descriptivas revelan que las variables tienen diferentes grados de variabilidad y distribución.
+
+El análisis de correlación revela que las variables tienen correlaciones moderadas en promedio (alrededor de 0.25), con una amplia dispersión indicada por la desviación estándar. Las correlaciones varían entre -0.06 y 1.00, sugiriendo una variedad de relaciones lineales y no lineales entre las variables. Además, la asimetría y la curtosis proporcionan información sobre la distribución de las correlaciones, destacando diferencias en la dispersión entre los pares de variables.
+
+```{r}
+dfSummary(all_data)
+```
+
+El resumen detallado de all_data proporcionado por [dfSummary()](https://cran.r-project.org/web/packages/summarytools/vignettes/introduction.html#data-frame-summaries-dfsummary) ofrece una visión completa de las características y distribuciones de las variables en nuestro conjunto de datos. Este resumen incluye estadísticas descriptivas, tablas de frecuencia y métricas adicionales que nos ayudan a comprender la naturaleza de nuestros datos. Con esta información, estamos mejor equipados para realizar análisis más profundos y tomar decisiones informadas basadas en la comprensión completa de nuestro conjunto de datos.
+
+Considero que los pasos dados hasta ahora pueden conformar de manera completa un análisis exploratorio de datos del dataset que nos concierne. Sin embargo, esto no ha hecho más que empezar, porque los [métodos de visualización](visualizaciondatos.html) vistos en la asignatura nos van a permitir ver de manera visual y clara todo lo que hemos ido detallando con *"dplyr"* o *"summarytools"*, y mucho más...
